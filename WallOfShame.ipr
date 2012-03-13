@@ -183,6 +183,8 @@
   </component>
   <component name="ScalacSettings">
     <option name="SCALAC_BEFORE" value="false" />
+    <option name="COMPILER_LIBRARY_NAME" value="scala-compiler-2.9.1-1" />
+    <option name="COMPILER_LIBRARY_LEVEL" value="Global" />
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />

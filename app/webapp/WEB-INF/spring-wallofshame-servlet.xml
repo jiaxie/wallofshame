@@ -22,19 +22,19 @@
     </bean>
 
 
-    <bean id="scheduledTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
-        <property name="delay" value="30000"/>
-        <!-- run every 30 seconds -->
-        <property name="period" value="300000"/>
-        <property name="timerTask" ref="updateWallOfShameService"/>
-    </bean>
+    <!--<bean id="scheduledTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">-->
+        <!--<property name="delay" value="30000"/>-->
+        <!--&lt;!&ndash; run every 30 seconds &ndash;&gt;-->
+        <!--<property name="period" value="300000"/>-->
+        <!--<property name="timerTask" ref="updateWallOfShameService"/>-->
+    <!--</bean>-->
 
 
-    <bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean">
-        <property name="scheduledTimerTasks">
-            <list>
-                <ref bean="scheduledTask"/>
-            </list>
-        </property>
-    </bean>
+    <!--<bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean">-->
+        <!--<property name="scheduledTimerTasks">-->
+            <!--<list>-->
+                <!--<ref bean="scheduledTask"/>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
 </beans>
