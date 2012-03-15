@@ -1,28 +1,29 @@
 package com.wallofshame.controller;
 
 
+import com.wallofshame.domain.PeopleMissingTimeSheet;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.portlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 public class ShameController {
-    @RequestMapping(value = "/{country}.html", method = RequestMethod.GET)
-    public ModelAndView index(@PathVariable String country) {
-        return new ModelAndView("login");
-//        if (Credential.isEmpty) {
-//            new ModelAndView("login");
-//        } else {
-//            new ModelAndView("index",
-//                    JavaConversions.asJavaMap(Map(
-//                            "names" -> PeopleMissingTimeSheet.names(country),
-//                            "country" -> country.toLowerCase.replaceAll("\\s", "")
-//                    )))
-//        }
+
+    private static PeopleMissingTimeSheet timeSheet = new PeopleMissingTimeSheet();
+
+    @RequestMapping(value = "/index.html", method = RequestMethod.GET)
+    public String index(Model model) {
+        List<String> names = timeSheet.names();
+        model.addAttribute("names", names);
+        model.addAttribute("country", "index");
+        return "index";
 
     }
+
     @RequestMapping(value = "/login.html", method = RequestMethod.GET)
     public ModelAndView login() {
         return new ModelAndView("login");
