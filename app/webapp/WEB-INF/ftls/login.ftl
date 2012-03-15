@@ -14,6 +14,11 @@
 </head>
 <body>
 <h3 >Your peoplesoft username and password</h3>
+<br/>
+<#if error?? >
+<h5><span style="color:red;">${error}</span></h5>
+<br/>
+</#if>
 <form method="POST" action="/wallofshame/login.html">
     <input name="username">
     <input name="password">
