@@ -2,6 +2,7 @@ package com.wallofshame.domain;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -24,5 +25,12 @@ public class HtmlUnitTest {
         WebClient client = new WebClient();
         HtmlPage welcomePage = client.getPage("http://htmlunit.sourceforge.net");
         assertEquals("Welcome to HtmlUnit",welcomePage.getTitleText());
+    }
+    
+    
+    @Test
+    public void substringBetweenDoubleQuote(){
+        String sample = "\"quoted\"";
+        assertEquals("quoted", StringUtils.substringBetween(sample,"\""));
     }
 }

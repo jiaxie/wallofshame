@@ -18,7 +18,7 @@ public class PeopleMissingTimeSheetTest {
 
     @Test
     public void shouldReturnNameList() {
-        PeopleMissingTimeSheet timeSheet = new PeopleMissingTimeSheet();
+        PeopleMissingTimeSheet timeSheet = PeopleMissingTimeSheet.getInstance();
         String zhiheng = "Zhiheng";
         String chen = "Chen";
         timeSheet.addName(zhiheng);

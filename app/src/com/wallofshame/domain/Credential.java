@@ -1,5 +1,7 @@
 package com.wallofshame.domain;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Created by IntelliJ IDEA.
  * User: twer
@@ -31,5 +33,10 @@ public class Credential {
 
     public String password() {
         return password;
+    }
+
+
+    public boolean isEmpty(){
+        return  StringUtils.isBlank(username) || StringUtils.isBlank(password);
     }
 }

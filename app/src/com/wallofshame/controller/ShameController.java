@@ -15,11 +15,10 @@ import java.util.List;
 @Controller
 public class ShameController {
 
-    private static PeopleMissingTimeSheet timeSheet = new PeopleMissingTimeSheet();
 
     @RequestMapping(value = "/index.html", method = RequestMethod.GET)
     public String index(Model model) {
-        List<String> names = timeSheet.names();
+        List<String> names = PeopleMissingTimeSheet.getInstance().names();
         model.addAttribute("names", names);
         model.addAttribute("country", "index");
         return "index";
