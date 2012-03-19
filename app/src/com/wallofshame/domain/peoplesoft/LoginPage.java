@@ -1,4 +1,4 @@
-package com.wallofshame.domain;
+package com.wallofshame.domain.peoplesoft;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
@@ -24,8 +24,9 @@ public class LoginPage {
         this.webClient = webClient;
     }
 
-    public void login() {
-        prepareCredential();
+    public void login(String username, String password) {
+        userIdTextInput().setValueAttribute(username);
+        passwordTextInput().setValueAttribute(password);
         clickSignInButton();
     }
 
@@ -35,11 +36,6 @@ public class LoginPage {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void prepareCredential() {
-        userIdTextInput().setValueAttribute(Credential.getInstance().username());
-        passwordTextInput().setValueAttribute(Credential.getInstance().password());
     }
 
     private HtmlSubmitInput signinButton() {

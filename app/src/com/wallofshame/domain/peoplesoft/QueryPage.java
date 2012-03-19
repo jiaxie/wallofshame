@@ -1,4 +1,4 @@
-package com.wallofshame.domain;
+package com.wallofshame.domain.peoplesoft;
 
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
 import com.gargoylesoftware.htmlunit.WebClient;

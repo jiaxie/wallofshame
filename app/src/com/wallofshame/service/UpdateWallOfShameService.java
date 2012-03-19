@@ -1,7 +1,7 @@
 package com.wallofshame.service;
 
-import com.gargoylesoftware.htmlunit.WebClient;
 import com.wallofshame.domain.*;
+import com.wallofshame.domain.peoplesoft.PeopleSoftSite;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,14 +15,21 @@ import java.util.*;
 @Component
 public class UpdateWallOfShameService {
 
+    private PeopleSoftSite site;
+
+    public UpdateWallOfShameService() {
+        this.setPeopleSoftSite(new PeopleSoftSite());
+    }
 
     //scheduled at every 2 hours
-    @Scheduled(fixedRate = 1000*30)
+    @Scheduled(fixedRate = 1000 * 30)
     public void pullUpdates() {
         if(Credential.getInstance().isEmpty())
             return;
-        this.fetchPeopleMissingTimesheetBefore(lastSunday());
-//        this.fetchPeopleMissingTimesheetBefore("23/03/2012");
+        site.login(Credential.getInstance().username(),Credential.getInstance().password());
+        String cvsData = site.fetchCvsOfPeopleMissingTimesheet(lastSunday(), departmentId());
+        Map<String,List<String>> names = new PeopleMissingTimesheetParser().parse(cvsData);
+        PeopleMissingTimeSheet.getInstance().replaceAll(names);
     }
 
     private String lastSunday() {
@@ -33,18 +40,12 @@ public class UpdateWallOfShameService {
         return FastDateFormat.getInstance("dd/MM/yyyy").format(lastSunday);
     }
 
-
     private String departmentId() {
         return "01";
     }
 
 
-    public void fetchPeopleMissingTimesheetBefore(String dateStr) {
-        WebClient webClient = new WebClient();
-        LoginPage loginPage = new LoginPage(webClient);
-        loginPage.login();
-        QueryPage queryPage = new QueryPage(webClient,dateStr,"01");
-        Map<String,List<String>> names = new PeopleMissingTimesheetParser().parse(queryPage.searchAndDownloadPeopleCSV());
-        PeopleMissingTimeSheet.getInstance().replaceAll(names);
+    public void setPeopleSoftSite(PeopleSoftSite site) {
+          this.site = site;
     }
 }
