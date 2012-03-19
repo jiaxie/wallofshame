@@ -3,30 +3,38 @@ package com.wallofshame.domain;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PeopleMissingTimesheetParser {
 
     public static final String BEACHBALL_HEADER = "Beachball";
-    private String country;
-
-    public PeopleMissingTimesheetParser(String country) {
-        this.country = country;
-    }
-
-    public List<String> parse(String cvsData) {
-        ArrayList<String> namesOfPeopleMissingTimeSheet = new ArrayList<String>();
+    public Map<String, List<String>> parse(String cvsData) {
+        Map<String, List<String>> listOfPeopleMissingTimeSheet = new HashMap<String, List<String>>();
         String[] lines = StringUtils.split(cvsData, '\n');
+
         for (String line : lines) {
             if (isHeaderLine(line))
                 continue;
-
             String countryCol = StringUtils.substringBefore(line, ",");
             String nameCol = StringUtils.substringAfter(line, ",");
-            if (countryCol.contains(this.country))
-                namesOfPeopleMissingTimeSheet.add(StringUtils.substringBetween(nameCol, "\""));
+
+            String country = StringUtils.substringBetween(countryCol, "\"");
+            String name = StringUtils.substringBetween(nameCol, "\"");
+
+            collectNamesToCountry(listOfPeopleMissingTimeSheet, name, country);
         }
-        return namesOfPeopleMissingTimeSheet;
+
+        return listOfPeopleMissingTimeSheet;
+    }
+
+    private void collectNamesToCountry(Map<String, List<String>> listOfPeopleMissingTimeSheet, String name, String country) {
+        List<String> names = listOfPeopleMissingTimeSheet.get(country);
+        if (names == null)
+            listOfPeopleMissingTimeSheet.put(country, new ArrayList<String>());
+
+        listOfPeopleMissingTimeSheet.get(country).add(name);
     }
 
 

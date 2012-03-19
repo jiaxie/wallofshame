@@ -3,9 +3,7 @@ package com.wallofshame.domain;
 import com.wallofshame.controller.ShameController;
 import org.apache.commons.collections.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Since: 3/15/12
@@ -14,7 +12,7 @@ public class PeopleMissingTimeSheet {
 
     private static PeopleMissingTimeSheet instance = new PeopleMissingTimeSheet();
 
-    private ArrayList<String> names;
+    private Map<String, List<String>> names;
 
 
     public static PeopleMissingTimeSheet getInstance(){
@@ -22,19 +20,18 @@ public class PeopleMissingTimeSheet {
     }
 
     private PeopleMissingTimeSheet() {
-        names = new ArrayList<String>();
+        names = new HashMap<String, List<String>>();
     }
 
-    public void addName(String name) {
-        names.add(name);
-    }
+  //  public void addName(String name) {
+  //      names.add(name);
+  //  }
     
-    public void replaceAll(List<String> names){
-        this.names.clear();
-        this.names.addAll(names);
+    public void replaceAll(Map<String,List<String>> names){
+        this.names = names;
     }
 
-    public List<String> names() {
+    public Map<String,List<String>> names() {
         return names;
     }
 }

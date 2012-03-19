@@ -4,7 +4,9 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.wallofshame.service.UpdateWallOfShameService;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -17,7 +19,7 @@ public class PageTest {
     @Test
     public void itMustHavePeopleMissTimesheetIfISearchFor10YearsLater(){
         Credential.getInstance().save("HJIAO","jiao980701");
-        List<String> names = PeopleMissingTimeSheet.getInstance().names();
+        Map<String, List<String>> names = PeopleMissingTimeSheet.getInstance().names();
         assertTrue(names.isEmpty());
         UpdateWallOfShameService service = new UpdateWallOfShameService();
         service.fetchPeopleMissingTimesheetBefore("31/12/2022");

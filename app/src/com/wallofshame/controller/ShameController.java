@@ -6,21 +6,24 @@ import com.wallofshame.domain.PeopleMissingTimeSheet;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ShameController {
 
 
-    @RequestMapping(value = "/index.html", method = RequestMethod.GET)
-    public String index(Model model) {
-        List<String> names = PeopleMissingTimeSheet.getInstance().names();
-        model.addAttribute("names", names);
-        model.addAttribute("country", "index");
+    @RequestMapping(value = "/{country}.html", method = RequestMethod.GET)
+    public String index(Model model, @PathVariable String country) {
+        Map<String,List<String>> names = PeopleMissingTimeSheet.getInstance().names();
+        model.addAttribute("names", names.get(country));
+        model.addAttribute("country", country);
         return "index";
 
     }
@@ -41,7 +44,7 @@ public class ShameController {
         }
 
         Credential.getInstance().save(username,password);
-        return "redirect:/index.html";
+        return "redirect:/China.html";
     }
 //    @RequestMapping(value = Array("/login.html"), method = Array(RequestMethod.POST))
 //    def save(request:HttpServletRequest){

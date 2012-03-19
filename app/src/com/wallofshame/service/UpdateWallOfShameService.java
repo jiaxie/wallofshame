@@ -7,9 +7,7 @@ import org.apache.commons.lang.time.FastDateFormat;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Since: 3/16/12
@@ -17,12 +15,9 @@ import java.util.List;
 @Component
 public class UpdateWallOfShameService {
 
-    private String country() {
-        return "China";
-    }
 
     //scheduled at every 2 hours
-    @Scheduled(fixedRate = 1000 * 60 * 60 * 2)
+    @Scheduled(fixedRate = 1000*60*60*2 )
     public void pullUpdates() {
         if(Credential.getInstance().isEmpty())
             return;
@@ -49,7 +44,7 @@ public class UpdateWallOfShameService {
         LoginPage loginPage = new LoginPage(webClient);
         loginPage.login();
         QueryPage queryPage = new QueryPage(webClient,dateStr,"01");
-        List<String> names = new PeopleMissingTimesheetParser("China").parse(queryPage.searchAndDownloadPeopleCSV());
+        Map<String,List<String>> names = new PeopleMissingTimesheetParser().parse(queryPage.searchAndDownloadPeopleCSV());
         PeopleMissingTimeSheet.getInstance().replaceAll(names);
     }
 }
