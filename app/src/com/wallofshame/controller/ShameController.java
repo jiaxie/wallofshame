@@ -21,7 +21,7 @@ public class ShameController {
 
 
     @RequestMapping(value = "/{country}.html", method = RequestMethod.GET)
-    public String index(Model model, @PathVariable String country) {
+    public String index(Model model, @PathVariable("country") String country) {
         Map<String, List<String>> names = PeopleMissingTimeSheet.getInstance().names();
         List<String> nameList = names.get(country);
         if (nameList == null) {
