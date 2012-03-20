@@ -32,7 +32,9 @@ public class LoginPage {
 
     private void clickSignInButton() {
         try {
-            signinButton().click();
+            webClient.setJavaScriptEnabled(false);
+            HtmlPage page = signinButton().click();
+            webClient.setJavaScriptEnabled(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
