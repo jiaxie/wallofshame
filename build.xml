@@ -112,7 +112,7 @@
 
     <target name="pkg.tomcat.war" depends="pkg">
         <war destfile="${dist.dir}/tomcat/${pkg.tomcat.war.name}" basedir="${dist.dir}/expanded/wallofshame"
-              excludes="${dist.dir}/expanded/wallofshame/WEB-INF/lib/servlet-api-2.5-20081211.jar" />
+              excludes="**/lib/servlet-api-2.5-20081211.jar" />
     </target>
 
     
