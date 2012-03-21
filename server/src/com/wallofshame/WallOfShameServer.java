@@ -24,7 +24,7 @@ public class WallOfShameServer {
     public static void main(String[] args) throws Exception {
         Server server = new Server();
         Connector con = new SelectChannelConnector();
-        String port = System.getProperty("port","8080");
+        String port = System.getProperty("port","8888");
         con.setPort(Integer.valueOf(port));
         server.addConnector(con);
         //server.addHandler(welcomeFileHandler());
