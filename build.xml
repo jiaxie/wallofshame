@@ -10,6 +10,8 @@
     <property name="compiled.src.dir" value="${target.dir}/production/classes"></property>
     <property name="compiled.test.dir" value="${target.dir}/test/classes"></property>
 
+    <property name="pkg.tomcat.war.name" value="timesheet.war" />
+
     <path id="source.lib.classpath">
         <fileset dir="app/webapp/WEB-INF/lib">
             <include name="**/*.jar"/>
@@ -99,13 +101,33 @@
 
     <target name="pkg" depends="compile.server, jar.source">
         <copy file="${dist.dir}/start.jar" todir="${dist.dir}/expanded"/>
-        <copy file="${dist.dir}/wallofshame.jar" todir="app/webapp/WEB-INF/lib"/>
         <copy todir="${dist.dir}/expanded/wallofshame">
             <fileset dir="app/webapp">
                 <include name="**/*"/>
                 <exclude name="**/classes/**/*"/>
             </fileset>
         </copy>
+        <delete file="${dist.dir}/expanded/wallofshame/WEB-INF/web-tomcat.xml" />
+        <copy file="${dist.dir}/wallofshame.jar" todir="${dist.dir}/expanded/wallofshame/WEB-INF/lib"/>
+    </target>
+
+    <target name="pkg.tomcat.war" depends="jar.source">
+        <copy todir="${dist.dir}/expanded/wallofshame">
+            <fileset dir="app/webapp">
+                <include name="**/*"/>
+                <exclude name="**/classes/**/*"/>
+            </fileset>
+        </copy>
+        <copy file="${dist.dir}/wallofshame.jar" todir="${dist.dir}/expanded/wallofshame/WEB-INF/lib"/>
+        <delete file="${dist.dir}/expanded/wallofshame/WEB-INF/lib/servlet-api-2.5-20081211.jar" />
+        <delete file="${dist.dir}/expanded/wallofshame/WEB-INF/web.xml" />
+        <move file="${dist.dir}/expanded/wallofshame/WEB-INF/web-tomcat.xml" tofile="${dist.dir}/expanded/wallofshame/WEB-INF/web.xml" />
+        <war destfile="${dist.dir}/tomcat/${pkg.tomcat.war.name}" basedir="${dist.dir}/expanded/wallofshame" />
+    </target>
+
+    
+    <target name="clean.dist">
+        <delete dir="${dist.dir}" />
     </target>
 
     <target name="s" depends="pkg">
