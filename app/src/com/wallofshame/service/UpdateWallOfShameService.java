@@ -6,8 +6,9 @@ import com.wallofshame.domain.PeopleMissingTimesheetParser;
 import com.wallofshame.domain.peoplesoft.PeopleSoftSite;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang.time.FastDateFormat;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -17,14 +18,15 @@ import java.util.Map;
 /**
  * Since: 3/16/12
  */
-@Component
+@Service("updateWallOfShameService")
 public class UpdateWallOfShameService {
-
     private PeopleSoftSite site;
-
     public UpdateWallOfShameService() {
         this.setPeopleSoftSite(new PeopleSoftSite());
     }
+
+    @Autowired
+    private MailService mailService;
 
 
     //scheduled at every 2 hours
@@ -36,6 +38,7 @@ public class UpdateWallOfShameService {
         String cvsData = site.fetchCvsOfPeopleMissingTimesheet(lastSunday(), departmentId());
         Map<String,List<String>> names = new PeopleMissingTimesheetParser().parse(cvsData);
         PeopleMissingTimeSheet.getInstance().replaceAll(names);
+        mailService.sendMail("robotforwallofshame@gmail.com", "1987quchen@gmail.com", "Testing today", "Testing only \n\n Hello Spring Email Sender");
     }
 
     private String lastSunday() {

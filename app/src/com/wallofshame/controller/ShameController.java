@@ -3,11 +3,9 @@ package com.wallofshame.controller;
 
 import com.wallofshame.domain.Credential;
 import com.wallofshame.domain.PeopleMissingTimeSheet;
-import com.wallofshame.service.MailService;
 import com.wallofshame.service.UpdateWallOfShameService;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +20,8 @@ import java.util.Map;
 @Controller
 public class ShameController {
 
+    @Autowired
+    private UpdateWallOfShameService updateWallOfShameService;
 
     @RequestMapping(value = "/{country}.html", method = RequestMethod.GET)
     public String index(Model model, @PathVariable("country") String country) {
@@ -52,11 +52,7 @@ public class ShameController {
         }
 
         Credential.getInstance().save(username, password);
-        UpdateWallOfShameService service = new UpdateWallOfShameService();
-        service.pullUpdates();
-        ApplicationContext context = new FileSystemXmlApplicationContext("/app/webapp/WEB-INF/spring-timesheet-servlet.xml");
-        MailService mailService = (MailService) context.getBean("mailService");
-        mailService.sendMail("robotforwallofshame@gmail.com", "1987quchen@gmail.com", "Testing another day", "Testing only \n\n Hello Spring Email Sender");
+        updateWallOfShameService.pullUpdates();
 
 
   //      updateAsyn();
