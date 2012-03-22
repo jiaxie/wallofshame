@@ -19,8 +19,12 @@ public class PeopleSoftSite {
     }
 
     public String fetchCvsOfPeopleMissingTimesheet(String endDate, String deptId) {
-        QueryPage queryPage = new QueryPage(webClient,endDate,deptId);
+        QueryPage queryPage = new QueryPage(webClient, endDate, deptId);
         return queryPage.searchAndDownloadPeopleCSV();
+    }
+
+    public void cleanUp() {
+        webClient.closeAllWindows();
     }
 
 

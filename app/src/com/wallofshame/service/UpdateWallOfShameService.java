@@ -36,6 +36,7 @@ public class UpdateWallOfShameService {
             return;
         site.login(Credential.getInstance().username(),Credential.getInstance().password());
         String cvsData = site.fetchCvsOfPeopleMissingTimesheet(lastSunday(), departmentId());
+        site.cleanUp();
         Map<String,List<String>> names = new PeopleMissingTimesheetParser().parse(cvsData);
         PeopleMissingTimeSheet.getInstance().replaceAll(names);
         mailService.sendMail("robotforwallofshame@gmail.com", "1987quchen@gmail.com", "Testing today", "Testing only \n\n Hello Spring Email Sender");
