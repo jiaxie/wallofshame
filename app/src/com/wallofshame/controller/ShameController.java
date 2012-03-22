@@ -20,6 +20,7 @@ import java.util.Map;
 @Controller
 public class ShameController {
 
+
     @Autowired
     private UpdateWallOfShameService updateWallOfShameService;
 
@@ -71,6 +72,11 @@ public class ShameController {
             }
         }).start();
     }
+
+    public void setUpdateWallOfShameService(UpdateWallOfShameService updateWallOfShameService) {
+        this.updateWallOfShameService = updateWallOfShameService;
+    }
+
 //    @RequestMapping(value = Array("/login.html"), method = Array(RequestMethod.POST))
 //    def save(request:HttpServletRequest){
 //        Credential.save(request.getParameter("username"), request.getParameter("password"))
