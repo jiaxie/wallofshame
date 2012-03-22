@@ -52,17 +52,21 @@ public class ShameController {
         }
 
         Credential.getInstance().save(username, password);
-        updateWallOfShameService.pullUpdates();
+        updateAsyn();
+        return "redirect:/loading.html?";
+    }
 
-
-  //      updateAsyn();
-        return "redirect:/China.html";
+    @RequestMapping(value="/loading.html", method = RequestMethod.GET)
+    public String loading(Model model){
+        model.addAttribute("country","China");
+        return "load";
     }
 
     private void updateAsyn() {
         new Thread(new Runnable() {
             public void run() {
 
+                updateWallOfShameService.pullUpdates();
 
             }
         }).start();
