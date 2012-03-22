@@ -1,13 +1,18 @@
 package com.wallofshame.service;
 
-import com.wallofshame.domain.*;
+import com.wallofshame.domain.Credential;
+import com.wallofshame.domain.PeopleMissingTimeSheet;
+import com.wallofshame.domain.PeopleMissingTimesheetParser;
 import com.wallofshame.domain.peoplesoft.PeopleSoftSite;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Since: 3/16/12
@@ -20,6 +25,7 @@ public class UpdateWallOfShameService {
     public UpdateWallOfShameService() {
         this.setPeopleSoftSite(new PeopleSoftSite());
     }
+
 
     //scheduled at every 2 hours
     @Scheduled(fixedRate = 1000 * 60 * 60 * 2)
@@ -43,6 +49,7 @@ public class UpdateWallOfShameService {
     private String departmentId() {
         return "01";
     }
+
 
 
     public void setPeopleSoftSite(PeopleSoftSite site) {
