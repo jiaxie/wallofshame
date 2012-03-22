@@ -10,7 +10,7 @@
     <property name="compiled.src.dir" value="${target.dir}/production/classes"></property>
     <property name="compiled.test.dir" value="${target.dir}/test/classes"></property>
 
-    <property name="pkg.tomcat.war.name" value="timesheet.war" />
+    <property name="pkg.tomcat.war.name" value="timesheet.war"/>
 
     <path id="source.lib.classpath">
         <fileset dir="app/webapp/WEB-INF/lib">
@@ -84,11 +84,11 @@
 
     <target name="run.test" depends="compile.test" description="execute the tests">
         <junit>
-            <classpath refid="run.test.classpath" />
+            <classpath refid="run.test.classpath"/>
             <batchtest>
                 <fileset dir="${compiled.test.dir}"/>
             </batchtest>
-            <formatter type="plain" usefile="false" />
+            <formatter type="plain" usefile="false"/>
         </junit>
     </target>
 
@@ -112,19 +112,19 @@
 
     <target name="pkg.tomcat.war" depends="pkg">
         <war destfile="${dist.dir}/tomcat/${pkg.tomcat.war.name}" basedir="${dist.dir}/expanded/wallofshame"
-              excludes="**/lib/servlet-api-2.5-20081211.jar" />
+             excludes="**/lib/servlet-api-2.5-20081211.jar"/>
     </target>
 
-    
+
     <target name="clean.dist">
-        <delete dir="${dist.dir}" />
+        <delete dir="${dist.dir}"/>
     </target>
 
     <target name="s" depends="pkg">
         <java dir="dist/expanded" jar="dist/expanded/start.jar" fork='true'>
             <sysproperty key="url" value="http://deadlock.netbeans.org/hudson/api/xml"></sysproperty>
             <sysproperty key="env" value="production"></sysproperty>
-        </java>                           
+        </java>
     </target>
 
     <target name="rea">
@@ -133,4 +133,31 @@
             <sysproperty key="env" value="production"></sysproperty>
         </java>
     </target>
+
+    <target name="deploy.tomcat" depends="pkg.tomcat.war, input.credential">
+
+        <scp file="${dist.dir}/tomcat/${pkg.tomcat.war.name}"
+             todir="${serverUsername}@10.18.8.76:/cygdrive/c/"
+             password="${serverPassword}"/>
+
+        <sshexec host="10.18.8.76"
+                 username="${serverUsername}"
+                 password="${serverPassword}"
+                 command="cp /cygdrive/c/${pkg.tomcat.war.name} /cygdrive/c/Program\ Files/apache-tomcat-6.0.35/webapps/${pkg.tomcat.war.name}"/>
+
+    </target>
+
+    <condition property="credential.present">
+        <and>
+            <isset property="serverUsername"/>
+            <isset property="serverPassword"/>
+        </and>
+    </condition>
+
+
+    <target name="input.credential" unless="credential.required">
+        <input message="please input server username:" addproperty="serverUsername"/>
+        <input message="please input server password:" addproperty="serverPassword"/>
+    </target>
+
 </project>
