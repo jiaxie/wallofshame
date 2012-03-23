@@ -42,7 +42,7 @@
             <include name="**/*.jar"/>
         </fileset>
         <path refid="compile.source.classpath"></path>
-        <pathelement location="${dist.dir}/wallofshame.jar"/>
+        <pathelement location="${dist.dir}/timesheet.jar"/>
     </path>
 
     <path id="run.test.classpath">
@@ -101,7 +101,7 @@
     </target>
 
     <target name="jar.source" depends="compile.src">
-        <jar destfile="${dist.dir}/wallofshame.jar"
+        <jar destfile="${dist.dir}/timesheet.jar"
              basedir="${compiled.src.dir}"
                 />
     </target>
@@ -109,13 +109,13 @@
 
     <target name="pkg.expanded" depends="compile.server, jar.source">
         <copy file="${dist.dir}/start.jar" todir="${dist.dir}/expanded"/>
-        <copy todir="${dist.dir}/expanded/wallofshame">
+        <copy todir="${dist.dir}/expanded/timesheet">
             <fileset dir="app/webapp">
                 <include name="**/*"/>
                 <exclude name="**/classes/**/*"/>
             </fileset>
         </copy>
-        <copy file="${dist.dir}/wallofshame.jar" todir="${dist.dir}/expanded/wallofshame/WEB-INF/lib"/>
+        <copy file="${dist.dir}/timesheet.jar" todir="${dist.dir}/expanded/timesheet/WEB-INF/lib"/>
     </target>
 
     <target name="pkg" depends="pkg.expanded,tag">
@@ -124,13 +124,13 @@
     <target name="tag" depends="git.revision">
         <filter token="revision" value="${repository.version}" />
         <echo message="current revision: ${repository.version}" />
-        <copy filtering="true" file="${dist.dir}/expanded/wallofshame/WEB-INF/ftls/includes/revision.ftl" tofile="${dist.dir}/expanded/wallofshame/WEB-INF/ftls/includes/revision.ftl.tmp"  />
-        <delete file="${dist.dir}/expanded/wallofshame/WEB-INF/ftls/includes/revision.ftl" ></delete>
-        <move file="${dist.dir}/expanded/wallofshame/WEB-INF/ftls/includes/revision.ftl.tmp" tofile="${dist.dir}/expanded/wallofshame/WEB-INF/ftls/includes/revision.ftl" />
+        <copy filtering="true" file="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl" tofile="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl.tmp"  />
+        <delete file="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl" ></delete>
+        <move file="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl.tmp" tofile="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl" />
     </target>
 
     <target name="pkg.tomcat.war" depends="pkg">
-        <war destfile="${pkg.tomcat.dir}/${pkg.tomcat.war.name}" basedir="${dist.dir}/expanded/wallofshame"
+        <war destfile="${pkg.tomcat.dir}/${pkg.tomcat.war.name}" basedir="${dist.dir}/expanded/timesheet"
              excludes="**/lib/servlet-api-2.5-20081211.jar"/>
     </target>
 
@@ -178,5 +178,11 @@
         </condition>
     </target>
 
+
+    <target name="start" depends="pkg">
+        <java dir="dist/expanded" jar="dist/expanded/start.jar" fork='true'>
+            <sysproperty key="env" value="production"></sysproperty>
+        </java>
+    </target>
 
 </project>

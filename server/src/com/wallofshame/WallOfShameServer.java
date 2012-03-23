@@ -24,14 +24,14 @@ public class WallOfShameServer {
     public static void main(String[] args) throws Exception {
         Server server = new Server();
         Connector con = new SelectChannelConnector();
-        String port = System.getProperty("port","8888");
+        String port = System.getProperty("port","8080");
         con.setPort(Integer.valueOf(port));
         server.addConnector(con);
         //server.addHandler(welcomeFileHandler());
 
         WebAppContext wac = new WebAppContext();
         if ("production".equals(System.getProperty("env"))) {
-            wac.setResourceBase("./wallofshame");
+            wac.setResourceBase("./timesheet");
         } else {
             if (new File("./app/webapp/WEB-INF/classes").exists()) {
                 FileUtils.cleanDirectory(new File("./app/webapp/WEB-INF/classes"));
@@ -44,7 +44,7 @@ public class WallOfShameServer {
         }
 
         wac.setDescriptor("WEB-INF/web.xml");
-        wac.setContextPath("/wallofshame");
+        wac.setContextPath("/timesheet");
         server.setHandler(wac);
         server.start();
     }
