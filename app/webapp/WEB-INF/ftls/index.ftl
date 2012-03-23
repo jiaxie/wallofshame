@@ -43,6 +43,7 @@
         </script>
 </head>
 <body>
+    <#include "/includes/revision.ftl">
 <h1 class="title">Please submit your timesheet</h1>
 <ul id="wallslider" name="wallslider">
     

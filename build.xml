@@ -107,7 +107,7 @@
     </target>
 
 
-    <target name="pkg" depends="compile.server, jar.source">
+    <target name="pkg.expanded" depends="compile.server, jar.source">
         <copy file="${dist.dir}/start.jar" todir="${dist.dir}/expanded"/>
         <copy todir="${dist.dir}/expanded/wallofshame">
             <fileset dir="app/webapp">
@@ -116,6 +116,17 @@
             </fileset>
         </copy>
         <copy file="${dist.dir}/wallofshame.jar" todir="${dist.dir}/expanded/wallofshame/WEB-INF/lib"/>
+    </target>
+
+    <target name="pkg" depends="pkg.expanded,tag">
+    </target>
+
+    <target name="tag" depends="git.revision">
+        <filter token="revision" value="${repository.version}" />
+        <echo message="current revision: ${repository.version}" />
+        <copy filtering="true" file="${dist.dir}/expanded/wallofshame/WEB-INF/ftls/includes/revision.ftl" tofile="${dist.dir}/expanded/wallofshame/WEB-INF/ftls/includes/revision.ftl.tmp"  />
+        <delete file="${dist.dir}/expanded/wallofshame/WEB-INF/ftls/includes/revision.ftl" ></delete>
+        <move file="${dist.dir}/expanded/wallofshame/WEB-INF/ftls/includes/revision.ftl.tmp" tofile="${dist.dir}/expanded/wallofshame/WEB-INF/ftls/includes/revision.ftl" />
     </target>
 
     <target name="pkg.tomcat.war" depends="pkg">
@@ -128,40 +139,44 @@
         <delete dir="${dist.dir}"/>
     </target>
 
-    <target name="s" depends="pkg">
-        <java dir="dist/expanded" jar="dist/expanded/start.jar" fork='true'>
-            <sysproperty key="url" value="http://deadlock.netbeans.org/hudson/api/xml"></sysproperty>
-            <sysproperty key="env" value="production"></sysproperty>
-        </java>
-    </target>
-
-    <target name="rea">
-        <java dir="dist/expanded" jar="dist/expanded/start.jar" fork='true'>
-            <sysproperty key="url" value="http://10.113.192.70:9080/api/xml"></sysproperty>
-            <sysproperty key="env" value="production"></sysproperty>
-        </java>
-    </target>
-
-
-
     <target name="deploy.tomcat" if="timesheet.war.present">
         <echo message="deploying to ${tomcat.manager.url}"/>
         <deploy url="${tomcat.manager.url}" username="${tomcat.username}" password="${tomcat.password}"
                 path="${tomcat.contextPath}" war="file:${pkg.tomcat.dir}/${pkg.tomcat.war.name}"/>
     </target>
 
-    <target name="undeploy.tomcat">
+    <target name="undeploy.tomcat" >
         <echo message="undeploying /${ant.project.name}"/>
-        <undeploy url="${tomcat.manager.url}" username="${tomcat.username}" password="${tomcat.password}"
+        <undeploy url="${tomcat.manager.url}" username="${tomcat.username}" password="${tomcat.password}"   failonerror="false"
                   path="${tomcat.contextPath}"/>
     </target>
 
     <target name="redeploy.tomcat" depends="undeploy.tomcat,deploy.tomcat">
     </target>
 
-    <available property="timesheet.war.present" file="${pkg.tomcat.dir}/${pkg.tomcat.war.name}"/>
+    <available property="timesheet.war.present" file="${pkg.tomcat.dir}/${pkg.tomcat.war.name}" type="file"/>
 
     <target name="go" depends="pkg.tomcat.war, redeploy.tomcat" description="one key to deploy application automatically.">
     </target>
+
+
+    <available file=".git" type="dir" property="git.present"/>
+
+    <tstamp/>
+
+    <target name="git.revision" description="Store git revision in ${repository.version}" if="git.present">
+        <exec executable="git" outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
+            <arg value="describe"/>
+            <arg value="--always"/>
+            <arg value="HEAD"/>
+        </exec>
+        <condition property="repository.version" value="${git.revision}.${DSTAMP}${TSTAMP}" else="unknown">
+            <and>
+                <isset property="git.revision"/>
+                <length string="${git.revision}" trim="yes" length="0" when="greater"/>
+            </and>
+        </condition>
+    </target>
+
 
 </project>

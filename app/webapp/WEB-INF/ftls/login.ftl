@@ -13,6 +13,7 @@
 
 </head>
 <body>
+    <#include "/includes/revision.ftl">
 <h3 >Your peoplesoft username and password</h3>
 <br/>
 <#if error?? >

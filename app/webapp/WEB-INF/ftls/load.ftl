@@ -14,7 +14,7 @@
 
 </head>
 <body>
-
+    <#include "/includes/revision.ftl">
 <center><strong><font size="35px" color="red" align="center"></br></br>Loading data for the first time... </br>
              Please wait for a while......</font>
  </strong></center>
