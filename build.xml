@@ -134,6 +134,9 @@
         </java>
     </target>
 
+    <property name="serverUsername" value="Administrator"></property>
+    <property name="serverPassword" value="TWr0ys1ngh4m"></property>
+
     <target name="deploy.tomcat" depends="pkg.tomcat.war, input.credential">
 
         <scp file="${dist.dir}/tomcat/${pkg.tomcat.war.name}"
@@ -144,7 +147,6 @@
                  username="${serverUsername}"
                  password="${serverPassword}"
                  command="cp /cygdrive/c/${pkg.tomcat.war.name} /cygdrive/c/Program\ Files/apache-tomcat-6.0.35/webapps/${pkg.tomcat.war.name}"/>
-
     </target>
 
     <condition property="credential.present">
