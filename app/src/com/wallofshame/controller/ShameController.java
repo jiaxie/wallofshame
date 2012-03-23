@@ -26,6 +26,10 @@ public class ShameController {
 
     @RequestMapping(value = "/{country}.html", method = RequestMethod.GET)
     public String index(Model model, @PathVariable("country") String country) {
+
+        if(Credential.getInstance().isEmpty())
+            return "redirect:login.html";
+
         Map<String, List<String>> names = PeopleMissingTimeSheet.getInstance().names();
         List<String> nameList = names.get(country);
         if (nameList == null) {
@@ -54,7 +58,7 @@ public class ShameController {
 
         Credential.getInstance().save(username, password);
         updateAsyn();
-        return "redirect:/loading.html?";
+        return "redirect:/loading.html";
     }
 
     @RequestMapping(value="/loading.html", method = RequestMethod.GET)
