@@ -11,6 +11,14 @@
     <property name="compiled.test.dir" value="${target.dir}/test/classes"></property>
 
     <property name="pkg.tomcat.war.name" value="${ant.project.name}.war"/>
+    <property name="pkg.tomcat.dir" value="${dist.dir}/tomcat"/>
+    <property name="tomcat.contextPath" value="/${ant.project.name}" />
+    <property name="tomcat.manager.url" value="http://10.18.8.76:8080/manager"/>
+    <property name="tomcat.username" value="tomcat"/>
+    <property name="tomcat.password" value="tomcat"/>
+
+    <taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask"/>
+    <taskdef name="undeploy" classname="org.apache.catalina.ant.UndeployTask"/>
 
     <path id="source.lib.classpath">
         <fileset dir="app/webapp/WEB-INF/lib">
@@ -111,7 +119,7 @@
     </target>
 
     <target name="pkg.tomcat.war" depends="pkg">
-        <war destfile="${dist.dir}/tomcat/${pkg.tomcat.war.name}" basedir="${dist.dir}/expanded/wallofshame"
+        <war destfile="${pkg.tomcat.dir}/${pkg.tomcat.war.name}" basedir="${dist.dir}/expanded/wallofshame"
              excludes="**/lib/servlet-api-2.5-20081211.jar"/>
     </target>
 
@@ -134,32 +142,26 @@
         </java>
     </target>
 
-    <property name="serverUsername" value="Administrator"></property>
-    <property name="serverPassword" value="TWr0ys1ngh4m"></property>
 
-    <target name="deploy.tomcat" depends="pkg.tomcat.war, input.credential">
 
-        <scp file="${dist.dir}/tomcat/${pkg.tomcat.war.name}"
-             todir="${serverUsername}@10.18.8.76:/cygdrive/c/"
-             password="${serverPassword}"/>
-
-        <sshexec host="10.18.8.76"
-                 username="${serverUsername}"
-                 password="${serverPassword}"
-                 command="cp /cygdrive/c/${pkg.tomcat.war.name} /cygdrive/c/Program\ Files/apache-tomcat-6.0.35/webapps/${pkg.tomcat.war.name}"/>
+    <target name="deploy.tomcat" if="timesheet.war.present">
+        <echo message="deploying to ${tomcat.manager.url}"/>
+        <deploy url="${tomcat.manager.url}" username="${tomcat.username}" password="${tomcat.password}"
+                path="${tomcat.contextPath}" war="file:${pkg.tomcat.dir}/${pkg.tomcat.war.name}"/>
     </target>
 
-    <condition property="credential.present">
-        <and>
-            <isset property="serverUsername"/>
-            <isset property="serverPassword"/>
-        </and>
-    </condition>
+    <target name="undeploy.tomcat">
+        <echo message="undeploying /${ant.project.name}"/>
+        <undeploy url="${tomcat.manager.url}" username="${tomcat.username}" password="${tomcat.password}"
+                  path="${tomcat.contextPath}"/>
+    </target>
 
+    <target name="redeploy.tomcat" depends="undeploy.tomcat,deploy.tomcat">
+    </target>
 
-    <target name="input.credential" unless="credential.required">
-        <input message="please input server username:" addproperty="serverUsername"/>
-        <input message="please input server password:" addproperty="serverPassword"/>
+    <available property="timesheet.war.present" file="${pkg.tomcat.dir}/${pkg.tomcat.war.name}"/>
+
+    <target name="go" depends="pkg.tomcat.war, redeploy.tomcat" description="one key to deploy application automatically.">
     </target>
 
 </project>
