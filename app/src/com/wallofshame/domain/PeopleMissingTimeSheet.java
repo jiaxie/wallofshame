@@ -1,9 +1,7 @@
 package com.wallofshame.domain;
 
-import com.wallofshame.controller.ShameController;
-import org.apache.commons.collections.CollectionUtils;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Since: 3/15/12
@@ -12,26 +10,23 @@ public class PeopleMissingTimeSheet {
 
     private static PeopleMissingTimeSheet instance = new PeopleMissingTimeSheet();
 
-    private Map<String, List<String>> names;
+    private List<MissingPeople> names;
 
 
-    public static PeopleMissingTimeSheet getInstance(){
+    public static PeopleMissingTimeSheet getInstance() {
         return instance;
     }
 
     private PeopleMissingTimeSheet() {
-        names = new HashMap<String, List<String>>();
+        names = new ArrayList<MissingPeople>();
     }
 
-  //  public void addName(String name) {
-  //      names.add(name);
-  //  }
-    
-    public void replaceAll(Map<String,List<String>> names){
+
+    public void replaceAll(List<MissingPeople> names) {
         this.names = names;
     }
 
-    public Map<String,List<String>> names() {
+    public List<MissingPeople> names() {
         return names;
     }
 }

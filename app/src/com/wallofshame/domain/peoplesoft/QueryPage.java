@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class QueryPage {
 
-    public static final String QUERY_PAGE_URL = "http://psfs89.thoughtworks.com/psc/fsprd89_1/EMPLOYEE/ERP/q/?ICAction=ICQryNameURL=PUBLIC.TW_UTIL_TIME_MISSING_DETAIL";
+    public static final String QUERY_PAGE_URL = "http://psfs89.thoughtworks.com/psc/fsprd89_1/EMPLOYEE/ERP/q/?ICAction=ICQryNameURL=TW_TIME_COUNTRY_MISSING";
     private WebClient webClient;
     private String deptId;
     private String dateStr;
@@ -61,7 +61,7 @@ public class QueryPage {
     }
 
     private HtmlTextInput departmentSearchInput() {
-        return queryForm().getInputByName("InputKeys_DEPTID");
+        return queryForm().getInputByName("InputKeys_COMPANY");
     }
 
     private HtmlTextInput dateSearchInput() {

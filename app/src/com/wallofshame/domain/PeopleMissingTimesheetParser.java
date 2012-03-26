@@ -3,42 +3,34 @@ package com.wallofshame.domain;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class PeopleMissingTimesheetParser {
 
-    public static final String BEACHBALL_HEADER = "Beachball";
-    public Map<String, List<String>> parse(String cvsData) {
-        Map<String, List<String>> listOfPeopleMissingTimeSheet = new HashMap<String, List<String>>();
-        String[] lines = StringUtils.split(cvsData, '\n');
+    public static final String HEADER_LINE_KEYWORD = "Payroll";
+    public static final int EMPLOYEE_ID_COLUMN_INDEX = 7;
+    public static final int EMPLOYEE_NAME_COLUMN_INDEX = 6;
+
+    public List<MissingPeople> parse(String cvsData) {
+
+        List<MissingPeople> peoples = new ArrayList<MissingPeople>();
+        String[] lines = StringUtils.split(cvsData, "\n");
 
         for (String line : lines) {
             if (isHeaderLine(line))
                 continue;
-            String countryCol = StringUtils.substringBefore(line, ",");
-            String nameCol = StringUtils.substringAfter(line, ",");
-
-            String country = StringUtils.substringBetween(countryCol, "\"");
-            String name = StringUtils.substringBetween(nameCol, "\"");
-
-            collectNamesToCountry(listOfPeopleMissingTimeSheet, name, country);
+            MissingPeople people = extractFromLine(line);
+            peoples.add(people);
         }
-
-        return listOfPeopleMissingTimeSheet;
+        return peoples;
     }
 
-    private void collectNamesToCountry(Map<String, List<String>> listOfPeopleMissingTimeSheet, String name, String country) {
-        List<String> names = listOfPeopleMissingTimeSheet.get(country);
-        if (names == null)
-            listOfPeopleMissingTimeSheet.put(country, new ArrayList<String>());
-
-        listOfPeopleMissingTimeSheet.get(country).add(name);
+    private MissingPeople extractFromLine(String line) {
+        String[] cols = StringUtils.substringsBetween(line, "\"", "\"");
+        return new MissingPeople(cols[EMPLOYEE_ID_COLUMN_INDEX], cols[EMPLOYEE_NAME_COLUMN_INDEX]);
     }
-
 
     private boolean isHeaderLine(String line) {
-        return line.contains(BEACHBALL_HEADER);
+        return line.contains(HEADER_LINE_KEYWORD);
     }
 }

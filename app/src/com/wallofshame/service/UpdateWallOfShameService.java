@@ -1,6 +1,7 @@
 package com.wallofshame.service;
 
 import com.wallofshame.domain.Credential;
+import com.wallofshame.domain.MissingPeople;
 import com.wallofshame.domain.PeopleMissingTimeSheet;
 import com.wallofshame.domain.PeopleMissingTimesheetParser;
 import com.wallofshame.domain.peoplesoft.BadCredentialException;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Since: 3/16/12
@@ -25,27 +25,26 @@ public class UpdateWallOfShameService {
     private static final Logger logger = Logger.getLogger(UpdateWallOfShameService.class);
 
     private PeopleSoftSite site;
+
     public UpdateWallOfShameService() {
         this.setPeopleSoftSite(new PeopleSoftSite());
     }
 
-
-
     //scheduled at every 2 hours
     @Scheduled(fixedRate = 1000 * 60 * 60 * 2)
     public void pullUpdates() {
-        if(Credential.getInstance().isEmpty())
+        if (Credential.getInstance().isEmpty())
             return;
         try {
-            site.login(Credential.getInstance().username(),Credential.getInstance().password());
+            site.login(Credential.getInstance().username(), Credential.getInstance().password());
         } catch (BadCredentialException badCredentialException) {
-            logger.info("Wrong password or username.Please check!");
+            logger.info("Wrong password or username.Please check! People missing timesheet were not fetched.");
             return;
         }
-        String cvsData = site.fetchCvsOfPeopleMissingTimesheet(lastSunday(), departmentId());
+        String cvsData = site.fetchCvsOfPeopleMissingTimesheet(lastSunday(), companyId());
         site.cleanUp();
-        Map<String,List<String>> names = new PeopleMissingTimesheetParser().parse(cvsData);
-        PeopleMissingTimeSheet.getInstance().replaceAll(names);
+        List<MissingPeople> peoples = new PeopleMissingTimesheetParser().parse(cvsData);
+        PeopleMissingTimeSheet.getInstance().replaceAll(peoples);
     }
 
     private String lastSunday() {
@@ -56,13 +55,12 @@ public class UpdateWallOfShameService {
         return FastDateFormat.getInstance("dd/MM/yyyy").format(lastSunday);
     }
 
-    private String departmentId() {
-        return "01";
+    private String companyId() {
+        //TCH mean China
+        return "TCH";
     }
 
-
-
     public void setPeopleSoftSite(PeopleSoftSite site) {
-          this.site = site;
+        this.site = site;
     }
 }

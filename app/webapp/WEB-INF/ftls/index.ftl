@@ -47,8 +47,8 @@
 <h1 class="title">Please submit your timesheet</h1>
 <ul id="wallslider" name="wallslider">
     
-    <#list names as name>
-        <li class="missing">${name}</li>
+    <#list peoples as people>
+        <li class="missing">${people.name}</li>
     </#list>
 </ul>
 </body>
