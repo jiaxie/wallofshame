@@ -3,9 +3,11 @@ package com.wallofshame.service;
 import com.wallofshame.domain.Credential;
 import com.wallofshame.domain.PeopleMissingTimeSheet;
 import com.wallofshame.domain.PeopleMissingTimesheetParser;
+import com.wallofshame.domain.peoplesoft.BadCredentialException;
 import com.wallofshame.domain.peoplesoft.PeopleSoftSite;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang.time.FastDateFormat;
+import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,9 @@ import java.util.Map;
  */
 @Service("updateWallOfShameService")
 public class UpdateWallOfShameService {
+
+    private static final Logger logger = Logger.getLogger(UpdateWallOfShameService.class);
+
     private PeopleSoftSite site;
     public UpdateWallOfShameService() {
         this.setPeopleSoftSite(new PeopleSoftSite());
@@ -31,7 +36,12 @@ public class UpdateWallOfShameService {
     public void pullUpdates() {
         if(Credential.getInstance().isEmpty())
             return;
-        site.login(Credential.getInstance().username(),Credential.getInstance().password());
+        try {
+            site.login(Credential.getInstance().username(),Credential.getInstance().password());
+        } catch (BadCredentialException badCredentialException) {
+            logger.info("Wrong password or username.Please check!");
+            return;
+        }
         String cvsData = site.fetchCvsOfPeopleMissingTimesheet(lastSunday(), departmentId());
         site.cleanUp();
         Map<String,List<String>> names = new PeopleMissingTimesheetParser().parse(cvsData);

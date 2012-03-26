@@ -1,13 +1,10 @@
 package com.wallofshame.domain;
 
+import com.wallofshame.domain.peoplesoft.BadCredentialException;
 import com.wallofshame.domain.peoplesoft.PeopleSoftSite;
 import com.wallofshame.service.UpdateWallOfShameService;
-import org.apache.commons.lang.time.DateUtils;
-import org.apache.commons.lang.time.FastDateFormat;
 import org.junit.Test;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +19,7 @@ import static org.junit.Assert.fail;
 public class UpdateWallOfShameServiceTest {
 
     @Test
-    public void canPullUpdatesFromPeopleSoftSite(){
+    public void canPullUpdatesFromPeopleSoftSite() throws BadCredentialException {
         Credential.getInstance().save("testuser","testpassword");
         Map<String, List<String>> names = PeopleMissingTimeSheet.getInstance().names();
         assertTrue(names.isEmpty());
@@ -30,6 +27,7 @@ public class UpdateWallOfShameServiceTest {
         UpdateWallOfShameService service = new UpdateWallOfShameService();
         service.setPeopleSoftSite(site);
         site.login(Credential.getInstance().username(), Credential.getInstance().password());
+        site.cleanUp();
         String cvsData = "\"Beachball Country\",\"Missing\"\n\"China\",\"Li,Zhiheng\"";
         expect(site.fetchCvsOfPeopleMissingTimesheet(isA(String.class),isA(String.class))).andReturn(cvsData);
         replay(site);

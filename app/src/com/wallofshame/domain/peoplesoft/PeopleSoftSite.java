@@ -13,7 +13,7 @@ public class PeopleSoftSite {
         webClient = new WebClient();
     }
 
-    public void login(String username, String password) {
+    public void login(String username, String password) throws BadCredentialException {
         LoginPage loginPage = new LoginPage(webClient);
         loginPage.login(username, password);
     }

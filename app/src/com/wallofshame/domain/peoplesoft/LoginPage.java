@@ -2,13 +2,18 @@ package com.wallofshame.domain.peoplesoft;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Since: 3/16/12
  */
 public class LoginPage {
+    
+    private static Logger logger = Logger.getLogger(LoginPage.class);
 
     public static final String LOGIN_PAGE_URL = "http://psfs89.thoughtworks.com/psp/fsprd89/?cmd=login&languageCd=ENG";
     public static final String SIGN_IN = "Sign In";
@@ -24,10 +29,27 @@ public class LoginPage {
         this.webClient = webClient;
     }
 
-    public void login(String username, String password) {
+    public void login(String username, String password) throws BadCredentialException {
         userIdTextInput().setValueAttribute(username);
         passwordTextInput().setValueAttribute(password);
         clickSignInButton();
+        shouldOnDefaultPage();
+    }
+
+    private void shouldOnDefaultPage() throws BadCredentialException {
+        URL currentLocation = webClient.getCurrentWindow().getEnclosedPage().getUrl();
+        if(!defaultPage().equals(currentLocation))
+            throw new BadCredentialException();
+    }
+
+    private URL defaultPage(){
+        try {
+            return new URL("http://psfs89.thoughtworks.com/psp/fsprd89/EMPLOYEE/ERP/h/?tab=DEFAULT");
+        } catch (MalformedURLException e) {
+            logger.error("please",e);
+        }
+        //should never come here.
+        return null;
     }
 
     private void clickSignInButton() {
