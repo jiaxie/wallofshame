@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Login to People soft.</title>
+	<title>Control Panel</title>
 	<!-- Framework CSS -->
 	<link rel="stylesheet" href="${requestContext.contextPath}/css/screen.css" type="text/css" media="screen, projection">
 	<link rel="stylesheet" href="${requestContext.contextPath}/css/plugins/buttons/screen.css" type="text/css" media="screen, projection">
@@ -14,15 +14,14 @@
 </head>
 <body>
     <#include "/includes/revision.ftl">
-<h1 class="title">Your peoplesoft username and password</h1>
-<form method="POST" action="${requestContext.contextPath}/login.html">
-    <#if error?? >
-    <span style="color:red;">${error}</span>
+<h1 class="title">Control Panel</h1>
+<br/>
+<form method="POST" action="${requestContext.contextPath}/control.html">
+    <span>You can send email notifications manually by click</span>
+    <input type="submit" value="Send Emails"/>
+    <#if info??>
+    <span style="color:red">${info}</span>
     </#if>
-    <br/>
-    <input name="username">
-    <input name="password">
-    <input type="submit" value="Save"/>
 </form>
 </body>
 </html>

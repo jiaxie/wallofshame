@@ -27,7 +27,7 @@ public class MailNotificationServiceTest {
     @Before
     public void setUp() throws Exception {
         List<MissingPeople> people = new ArrayList<MissingPeople>();
-        people.add(new MissingPeople("14301","Si Xiaojing"));
+        people.add(new MissingPeople("noreply.timesheet","NoReployTimeSheet"));
         PeopleMissingTimeSheet.getInstance().replaceAll(people);
     }
 

@@ -21,8 +21,6 @@ public class MailNotificationService {
     private MailSender mailSender;
     private SimpleMailMessage templateMessage;
 
-    private boolean toggle = false;
-
     @Autowired
     public MailNotificationService(final MailSender mailSender, final SimpleMailMessage templateMessage) {
         this.mailSender = mailSender;
@@ -33,19 +31,6 @@ public class MailNotificationService {
     public void notifyMissingPeople() {
 
         List<MissingPeople> people = PeopleMissingTimeSheet.getInstance().names();
-
-        if(!toggle){
-           StringBuilder builder = new StringBuilder();
-           for(MissingPeople each :people)
-               builder.append(each).append("\n");
-
-            SimpleMailMessage message = new SimpleMailMessage(templateMessage);
-            message.setTo("zhengli@thoughtworks.com");
-            message.setCc(new String[]{"khu@thoughtworks.com","sjsi@thoughtworks.com","hjiao@thoughtworks.com"});
-            message.setText(builder.toString());
-            mailSender.send(message);
-            return;
-        }
 
         for (MissingPeople each : people)
             sendMailTo(each);
