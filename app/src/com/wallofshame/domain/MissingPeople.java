@@ -7,10 +7,12 @@ public class MissingPeople {
 
     private String id;
     private String name;
+    private String office;
 
-    public MissingPeople(String id, String name) {
+    public MissingPeople(String id, String name, String office) {
         this.id = id;
         this.name = name;
+        this.office = office;
     }
 
     public String getId() {
@@ -29,6 +31,10 @@ public class MissingPeople {
 
     @Override
     public String toString() {
-        return "[" + id + ":" + name + "]";
+        return id + "," + name + "," + office;
+    }
+
+    public String getOffice() {
+        return office;
     }
 }

@@ -31,20 +31,23 @@ public class PeopleMissingTimesheetParserTest {
     public void canParseCSVData() throws Exception {
         String csvSample = loadCSVData();
         List<MissingPeople> people = new PeopleMissingTimesheetParser().parse(csvSample);
-        assertContainsPeople(people,new MissingPeople("13770","An,Hui"));
+        assertContainsPeople(people,new MissingPeople("13770","An,Hui", "Beijing"));
     }
 
     @Test
     public void testEqualityById() {
-        assertThat(new MissingPeople("1", "a"), is(new MissingPeople("1", "a")));
-        assertThat(new MissingPeople("1", "a"), not(new MissingPeople("2", "b")));
-        assertThat(new MissingPeople("1", "a"), is(new MissingPeople("1", "b")));
+        assertThat(new MissingPeople("1", "a", "Beijing"), is(new MissingPeople("1", "a", "Beijing")));
+        assertThat(new MissingPeople("1", "a", "Beijing"), not(new MissingPeople("2", "b", "Beijing")));
+        assertThat(new MissingPeople("1", "a", "Beijing"), is(new MissingPeople("1", "b", "Beijing")));
     }
 
     private void assertContainsPeople(List<MissingPeople> people, MissingPeople missingPeople) {
-        for (MissingPeople each : people)
-            if (each.equals(missingPeople))
+        for (MissingPeople each : people){
+            if(each.getId().equals(missingPeople.getId())
+                && each.getName().equals(missingPeople.getName())
+                    && each.getOffice().equals(missingPeople.getOffice()))
                 return;
+        }
         fail("not found missing people :" + missingPeople);
     }
 

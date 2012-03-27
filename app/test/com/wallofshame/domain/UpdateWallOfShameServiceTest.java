@@ -43,7 +43,7 @@ public class UpdateWallOfShameServiceTest {
         service.pullUpdates();
         names = PeopleMissingTimeSheet.getInstance().names();
         assertFalse(names.isEmpty());
-        assertContainsName(names,new MissingPeople("13770","An,Hui"));
+        assertContainsName(names,new MissingPeople("13770","An,Hui", "Beijing"));
 
         verify(site);
     }

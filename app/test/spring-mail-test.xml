@@ -36,8 +36,15 @@
 
     <bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
         <property name="from" value="timesheet.lab@thoughtworks.com"/>
-        <property name="subject" value="[No Reply] You missed to submit your timesheet last week."/>
+        <property name="subject" value="[noreply] Just kindly remind you, you forgot to submit the timesheet."/>
         <property name="text" value="Please submit your timesheet ASAP." />
+        <property name="cc">
+            <list>
+                <value>zhengli@thoughtworks.com</value>
+                <value>noreply.timesheet@gmail.com</value>
+            </list>
+        </property>
     </bean>
+
 
 </beans>

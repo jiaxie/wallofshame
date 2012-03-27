@@ -10,6 +10,7 @@ public class PeopleMissingTimesheetParser {
     public static final String HEADER_LINE_KEYWORD = "Payroll";
     public static final int EMPLOYEE_ID_COLUMN_INDEX = 7;
     public static final int EMPLOYEE_NAME_COLUMN_INDEX = 6;
+    public static final int EMPLOYEE_OFFICE_COLUMN_INDEX = 3;
 
     public List<MissingPeople> parse(String cvsData) {
 
@@ -27,7 +28,7 @@ public class PeopleMissingTimesheetParser {
 
     private MissingPeople extractFromLine(String line) {
         String[] cols = StringUtils.substringsBetween(line, "\"", "\"");
-        return new MissingPeople(cols[EMPLOYEE_ID_COLUMN_INDEX], cols[EMPLOYEE_NAME_COLUMN_INDEX]);
+        return new MissingPeople(cols[EMPLOYEE_ID_COLUMN_INDEX], cols[EMPLOYEE_NAME_COLUMN_INDEX], cols[EMPLOYEE_OFFICE_COLUMN_INDEX]);
     }
 
     private boolean isHeaderLine(String line) {
