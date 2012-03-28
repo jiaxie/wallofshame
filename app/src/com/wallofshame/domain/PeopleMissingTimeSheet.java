@@ -11,7 +11,7 @@ public class PeopleMissingTimeSheet {
 
     private static PeopleMissingTimeSheet instance = new PeopleMissingTimeSheet();
 
-    private List<Employee> names;
+    private Employees names;
     private Date lastUpdateTime;
 
 
@@ -20,18 +20,12 @@ public class PeopleMissingTimeSheet {
     }
 
     private PeopleMissingTimeSheet() {
-        names = new ArrayList<Employee>();
+        names = new Employees(new ArrayList<Employee>());
         this.lastUpdateTime = new Date();
     }
 
-
-    private void replaceAll(List<Employee> names) {
-        this.names = names;
-        dataUpdated();
-    }
-
     public void replaceAll(Employees names) {
-        this.names = names.employees;
+        this.names = names;
         dataUpdated();
     }
 
@@ -40,7 +34,7 @@ public class PeopleMissingTimeSheet {
     }
 
     public List<Employee> names() {
-        return names;
+        return names.employees;
     }
 
     public Date lastUpdateTime() {
