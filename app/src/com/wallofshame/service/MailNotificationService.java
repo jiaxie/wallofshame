@@ -1,6 +1,6 @@
 package com.wallofshame.service;
 
-import com.wallofshame.domain.MissingPeople;
+import com.wallofshame.domain.Employee;
 import com.wallofshame.domain.PeopleMissingTimeSheet;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Since: 3/26/12
@@ -43,7 +42,7 @@ public class MailNotificationService {
     @Scheduled(cron = "0 30 08 ? * Mon,Tue")
     public void notifyMissingPeople() {
 
-        List<MissingPeople> peoples = PeopleMissingTimeSheet.getInstance().names();
+        List<Employee> peoples = PeopleMissingTimeSheet.getInstance().names();
         String[] toList = collectToList(peoples);
         String text = buildMailText(peoples);
         SimpleMailMessage message = new SimpleMailMessage(templateMessage);
@@ -53,14 +52,14 @@ public class MailNotificationService {
 
     }
 
-    private String[] collectToList(List<MissingPeople> peoples) {
+    private String[] collectToList(List<Employee> peoples) {
         List<String> tos = new ArrayList<String>();
-        for (MissingPeople people : peoples)
+        for (Employee people : peoples)
             tos.add(calculateAddress(people));
         return tos.toArray(new String[]{});
     }
 
-    private String buildMailText(List<MissingPeople> peoples) {
+    private String buildMailText(List<Employee> peoples) {
         StringBuilder builder = new StringBuilder();
         builder.append(templateHeader())
                 .append(collectNames(peoples))
@@ -68,12 +67,12 @@ public class MailNotificationService {
         return builder.toString();
     }
 
-    private String collectNames(List<MissingPeople> peoples) {
+    private String collectNames(List<Employee> peoples) {
         StringBuilder names = new StringBuilder();
         names.append("People missing timesheet,\n");
         String header = formatRow("ID", "Name", "Office");
         names.append(header).append("\n");
-        for(MissingPeople people : peoples)
+        for(Employee people : peoples)
             names.append(formatRow(people.getId(),people.getName(),people.getOffice())).append("\n");
         return names.toString();
     }
@@ -92,8 +91,8 @@ public class MailNotificationService {
     }
 
 
-    private String calculateAddress(MissingPeople missingPeople) {
-        return missingPeople.getId() + "@thoughtworks.com";
+    private String calculateAddress(Employee employee) {
+        return employee.getId() + "@thoughtworks.com";
     }
 
     private class AsynNotificationTask implements Runnable {

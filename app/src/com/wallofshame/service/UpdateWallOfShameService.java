@@ -1,7 +1,7 @@
 package com.wallofshame.service;
 
 import com.wallofshame.domain.Credential;
-import com.wallofshame.domain.MissingPeople;
+import com.wallofshame.domain.Employee;
 import com.wallofshame.domain.PeopleMissingTimeSheet;
 import com.wallofshame.domain.PeopleMissingTimesheetParser;
 import com.wallofshame.domain.peoplesoft.BadCredentialException;
@@ -43,7 +43,7 @@ public class UpdateWallOfShameService {
         }
         String cvsData = site.fetchCvsOfPeopleMissingTimesheet(lastSunday(), companyId());
         site.cleanUp();
-        List<MissingPeople> peoples = new PeopleMissingTimesheetParser().parse(cvsData);
+        List<Employee> peoples = new PeopleMissingTimesheetParser().parse(cvsData);
         PeopleMissingTimeSheet.getInstance().replaceAll(peoples);
 
     }

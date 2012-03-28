@@ -30,25 +30,25 @@ public class PeopleMissingTimesheetParserTest {
     @Test
     public void canParseCSVData() throws Exception {
         String csvSample = loadCSVData();
-        List<MissingPeople> people = new PeopleMissingTimesheetParser().parse(csvSample);
-        assertContainsPeople(people,new MissingPeople("13770","An,Hui", "Beijing"));
+        List<Employee> people = new PeopleMissingTimesheetParser().parse(csvSample);
+        assertContainsPeople(people,new Employee("13770","An,Hui", "Beijing"));
     }
 
     @Test
     public void testEqualityById() {
-        assertThat(new MissingPeople("1", "a", "Beijing"), is(new MissingPeople("1", "a", "Beijing")));
-        assertThat(new MissingPeople("1", "a", "Beijing"), not(new MissingPeople("2", "b", "Beijing")));
-        assertThat(new MissingPeople("1", "a", "Beijing"), is(new MissingPeople("1", "b", "Beijing")));
+        assertThat(new Employee("1", "a", "Beijing"), is(new Employee("1", "a", "Beijing")));
+        assertThat(new Employee("1", "a", "Beijing"), not(new Employee("2", "b", "Beijing")));
+        assertThat(new Employee("1", "a", "Beijing"), is(new Employee("1", "b", "Beijing")));
     }
 
-    private void assertContainsPeople(List<MissingPeople> people, MissingPeople missingPeople) {
-        for (MissingPeople each : people){
-            if(each.getId().equals(missingPeople.getId())
-                && each.getName().equals(missingPeople.getName())
-                    && each.getOffice().equals(missingPeople.getOffice()))
+    private void assertContainsPeople(List<Employee> people, Employee employee) {
+        for (Employee each : people){
+            if(each.getId().equals(employee.getId())
+                && each.getName().equals(employee.getName())
+                    && each.getOffice().equals(employee.getOffice()))
                 return;
         }
-        fail("not found missing people :" + missingPeople);
+        fail("not found missing people :" + employee);
     }
 
     private String loadCSVData() throws Exception {

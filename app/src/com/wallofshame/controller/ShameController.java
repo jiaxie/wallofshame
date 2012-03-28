@@ -2,7 +2,7 @@ package com.wallofshame.controller;
 
 
 import com.wallofshame.domain.Credential;
-import com.wallofshame.domain.MissingPeople;
+import com.wallofshame.domain.Employee;
 import com.wallofshame.domain.PeopleMissingTimeSheet;
 import com.wallofshame.service.UpdateWallOfShameService;
 import org.apache.commons.lang.StringUtils;
@@ -30,7 +30,7 @@ public class ShameController {
         if (Credential.getInstance().isEmpty())
             return "redirect:login.html";
 
-        List<MissingPeople> peoples = PeopleMissingTimeSheet.getInstance().names();
+        List<Employee> peoples = PeopleMissingTimeSheet.getInstance().names();
         Date lastUpdateTime = PeopleMissingTimeSheet.getInstance().lastUpdateTime();
         model.addAttribute("peoples", peoples);
         model.addAttribute("country", country);

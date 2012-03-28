@@ -39,7 +39,7 @@ public class UpdateWallOfShameServiceTest {
     @Test
     public void canPullUpdatesFromPeopleSoftSite() throws Exception {
 
-        List<MissingPeople> names = PeopleMissingTimeSheet.getInstance().names();
+        List<Employee> names = PeopleMissingTimeSheet.getInstance().names();
         assertTrue(names.isEmpty());
 
         UpdateWallOfShameService service = new UpdateWallOfShameService();
@@ -47,7 +47,7 @@ public class UpdateWallOfShameServiceTest {
         service.pullUpdates();
         names = PeopleMissingTimeSheet.getInstance().names();
         assertFalse(names.isEmpty());
-        assertContainsName(names,new MissingPeople("13770","An,Hui", "Beijing"));
+        assertContainsName(names,new Employee("13770","An,Hui", "Beijing"));
 
     }
     
@@ -62,11 +62,11 @@ public class UpdateWallOfShameServiceTest {
         assertTrue(lastUpdateTime.after(timeBeforeUpdate));
     }
     
-    private void assertContainsName(List<MissingPeople> names, MissingPeople exMissingPeople) {
-        for(MissingPeople name : names)
-            if(name.equals(exMissingPeople))
+    private void assertContainsName(List<Employee> names, Employee exEmployee) {
+        for(Employee name : names)
+            if(name.equals(exEmployee))
                 return;
-        fail("name does not exist..."+exMissingPeople);
+        fail("name does not exist..."+ exEmployee);
     }
 
     @After

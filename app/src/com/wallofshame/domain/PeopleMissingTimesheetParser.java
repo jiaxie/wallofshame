@@ -12,23 +12,23 @@ public class PeopleMissingTimesheetParser {
     public static final int EMPLOYEE_NAME_COLUMN_INDEX = 6;
     public static final int EMPLOYEE_OFFICE_COLUMN_INDEX = 3;
 
-    public List<MissingPeople> parse(String cvsData) {
+    public List<Employee> parse(String cvsData) {
 
-        List<MissingPeople> peoples = new ArrayList<MissingPeople>();
+        List<Employee> peoples = new ArrayList<Employee>();
         String[] lines = StringUtils.split(cvsData, "\n");
 
         for (String line : lines) {
             if (isHeaderLine(line))
                 continue;
-            MissingPeople people = extractFromLine(line);
+            Employee people = extractFromLine(line);
             peoples.add(people);
         }
         return peoples;
     }
 
-    private MissingPeople extractFromLine(String line) {
+    private Employee extractFromLine(String line) {
         String[] cols = StringUtils.substringsBetween(line, "\"", "\"");
-        return new MissingPeople(cols[EMPLOYEE_ID_COLUMN_INDEX], cols[EMPLOYEE_NAME_COLUMN_INDEX], cols[EMPLOYEE_OFFICE_COLUMN_INDEX]);
+        return new Employee(cols[EMPLOYEE_ID_COLUMN_INDEX], cols[EMPLOYEE_NAME_COLUMN_INDEX], cols[EMPLOYEE_OFFICE_COLUMN_INDEX]);
     }
 
     private boolean isHeaderLine(String line) {
