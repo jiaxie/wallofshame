@@ -31,9 +31,6 @@ public class Employee {
         Employee employee = (Employee) o;
 
         if (id != null ? !id.equals(employee.id) : employee.id != null) return false;
-        if (name != null ? !name.equals(employee.name) : employee.name != null) return false;
-        if (office != null ? !office.equals(employee.office) : employee.office != null) return false;
-
         return true;
     }
 
