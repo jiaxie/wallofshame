@@ -1,13 +1,10 @@
 package com.wallofshame.domain;
 
-import com.wallofshame.domain.peoplesoft.PeopleSoftSite;
 import com.wallofshame.repository.MissingTimeSheetRepository;
 import com.wallofshame.service.UpdateWallOfShameService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -16,7 +13,6 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
-import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 /**
@@ -33,7 +29,7 @@ public class UpdateWallOfShameServiceTest {
         UpdateWallOfShameService service = new UpdateWallOfShameService(new MissingTimeSheetRepository(){
             public Employees lookUp(String lastSunDay, String officeId) {
                 String cvsData = loadCSVData();
-                return new Employees(new PeopleMissingTimesheetParser().parse(cvsData));
+                return new EmployeesParser().parse(cvsData);
             }
         });
         service.pullUpdates();
@@ -50,7 +46,7 @@ public class UpdateWallOfShameServiceTest {
         UpdateWallOfShameService service = new UpdateWallOfShameService(new MissingTimeSheetRepository(){
             public Employees lookUp(String lastSunDay, String officeId) {
                 String cvsData = loadCSVData();
-                return new Employees(new PeopleMissingTimesheetParser().parse(cvsData));
+                return new EmployeesParser().parse(cvsData);
             }
         });
         service.pullUpdates();

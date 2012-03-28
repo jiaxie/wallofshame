@@ -29,7 +29,7 @@ public class MailNotificationServiceTest {
         List<Employee> people = new ArrayList<Employee>();
         people.add(new Employee("zhengli","Zhiheng Li", "Chengdu"));
         people.add(new Employee("xjsi","Xiaojing Si", "Xi'an"));
-        PeopleMissingTimeSheet.getInstance().replaceAll(people);
+        PeopleMissingTimeSheet.getInstance().replaceAll(new Employees(people));
     }
 
     @Test
@@ -39,7 +39,7 @@ public class MailNotificationServiceTest {
 
     @After
     public void after() throws Exception{
-        PeopleMissingTimeSheet.getInstance().replaceAll(new ArrayList<Employee>());
+        PeopleMissingTimeSheet.getInstance().replaceAll(new Employees(new ArrayList<Employee>()));
     }
     public void setMailNotificationService(MailNotificationService mailNotificationService) {
         this.mailNotificationService = mailNotificationService;

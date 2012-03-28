@@ -13,4 +13,12 @@ public class Employees {
     public Employees() {
         employees =  new ArrayList<Employee>();
     }
+
+    public void add(Employee person) {
+        employees.add(person);
+    }
+
+    public boolean contains(Employee employee) {
+        return employees.contains(employee);
+    }
 }

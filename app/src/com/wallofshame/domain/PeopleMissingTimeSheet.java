@@ -25,7 +25,7 @@ public class PeopleMissingTimeSheet {
     }
 
 
-    public void replaceAll(List<Employee> names) {
+    private void replaceAll(List<Employee> names) {
         this.names = names;
         dataUpdated();
     }

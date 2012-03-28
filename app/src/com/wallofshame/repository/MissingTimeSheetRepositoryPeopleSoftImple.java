@@ -7,7 +7,6 @@ import com.wallofshame.service.UpdateWallOfShameService;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
@@ -30,7 +29,7 @@ public class MissingTimeSheetRepositoryPeopleSoftImple implements MissingTimeShe
         }
         String cvsData = peopleSoft.fetchCvsOfPeopleMissingTimesheet(lastSunday(), companyId());
         peopleSoft.cleanUp();
-        return new Employees(new PeopleMissingTimesheetParser().parse(cvsData));
+        return new EmployeesParser().parse(cvsData);
     }
 
     private String lastSunday() {

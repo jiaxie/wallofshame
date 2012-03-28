@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  * Time: 3:02 PM
  * To change this template use File | Settings | File Templates.
  */
-public class PeopleMissingTimesheetParserTest {
+public class EmployeesParserTest {
 
     @Test
     public void canFindSampleCSVData() throws Exception {
@@ -30,8 +30,9 @@ public class PeopleMissingTimesheetParserTest {
     @Test
     public void canParseCSVData() throws Exception {
         String csvSample = loadCSVData();
-        List<Employee> people = new PeopleMissingTimesheetParser().parse(csvSample);
-        assertContainsPeople(people,new Employee("13770","An,Hui", "Beijing"));
+        Employees employees = new EmployeesParser().parse(csvSample);
+        assertTrue(employees.contains(new Employee("13770","An,Hui", "Beijing")));
+
     }
 
     @Test
