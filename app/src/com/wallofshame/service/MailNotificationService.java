@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Since: 3/26/12
@@ -29,6 +32,13 @@ public class MailNotificationService {
         this.mailSender = mailSender;
         this.templateMessage = templateMessage;
     }
+    
+    public void nofityMissingPeopleAsyn() {
+        ExecutorService service  = Executors.newSingleThreadExecutor();
+        service.submit(new AsynNotificationTask());
+        service.shutdown();
+    }
+
 
     @Scheduled(cron = "0 30 08 ? * Mon,Tue")
     public void notifyMissingPeople() {
@@ -86,4 +96,9 @@ public class MailNotificationService {
         return missingPeople.getId() + "@thoughtworks.com";
     }
 
+    private class AsynNotificationTask implements Runnable {
+        public void run() {
+            MailNotificationService.this.notifyMissingPeople();
+        }
+    }
 }
