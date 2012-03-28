@@ -2,6 +2,7 @@ package com.wallofshame.repository;
 
 import com.wallofshame.domain.*;
 import com.wallofshame.domain.peoplesoft.PeopleSoftSite;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -9,7 +10,8 @@ public class MissingTimeSheetRepositoryPeopleSoftImple implements MissingTimeShe
 
     private PeopleSoftSite peopleSoft = new PeopleSoftSite();
 
-    public Employees lookUp(String lastSunDay, String officeId) {
+
+    public Employees lookUp(DateTime lastSunDay, String officeId) {
         return peopleSoft.fetch(lastSunDay, officeId);
     }
 }

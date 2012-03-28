@@ -5,6 +5,7 @@ import com.wallofshame.service.UpdateWallOfShameService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import java.io.File;
@@ -27,7 +28,8 @@ public class UpdateWallOfShameServiceTest {
         assertTrue(names.isEmpty());
 
         UpdateWallOfShameService service = new UpdateWallOfShameService(new MissingTimeSheetRepository(){
-            public Employees lookUp(String lastSunDay, String officeId) {
+
+            public Employees lookUp(DateTime lastSunDay, String officeId) {
                 String cvsData = loadCSVData();
                 return new EmployeesParser().parse(cvsData);
             }
@@ -44,7 +46,8 @@ public class UpdateWallOfShameServiceTest {
 
         Date timeBeforeUpdate = DateUtils.addSeconds(new Date(),-2);
         UpdateWallOfShameService service = new UpdateWallOfShameService(new MissingTimeSheetRepository(){
-            public Employees lookUp(String lastSunDay, String officeId) {
+
+            public Employees lookUp(DateTime lastSunDay, String officeId) {
                 String cvsData = loadCSVData();
                 return new EmployeesParser().parse(cvsData);
             }

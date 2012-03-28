@@ -8,6 +8,7 @@ import com.wallofshame.repository.MissingTimeSheetRepositoryPeopleSoftImple;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -24,14 +25,14 @@ public class PeopleSoftSite {
     }
 
 
-
-    public Employees fetch(String lastSunDay, String officeId) {
+    public Employees fetch(DateTime lastSunDay, String officeId) {
+        String lastSunDayStr = convertDateAsString(lastSunDay);
         if (Credential.getInstance().isEmpty()) {
             return new Employees();
         }
         try {
             this.login(Credential.getInstance().username(), Credential.getInstance().password());
-            String cvsData = this.fetchCvsOfPeopleMissingTimesheet(lastSunDay, officeId);
+            String cvsData = this.fetchCvsOfPeopleMissingTimesheet(lastSunDayStr, officeId);
             return new EmployeesParser().parse(cvsData);
         } catch (BadCredentialException badCredentialException) {
             logger.info("Wrong password or username.Please check! People missing timesheet were not fetched.");
@@ -39,6 +40,10 @@ public class PeopleSoftSite {
             this.cleanUp();
         }
         return new Employees();
+    }
+
+    public String convertDateAsString(DateTime lastSunDay) {
+        return FastDateFormat.getInstance("dd/MM/yyyy").format(lastSunDay.toDate());
     }
 
     public void login(String username, String password) throws BadCredentialException {
