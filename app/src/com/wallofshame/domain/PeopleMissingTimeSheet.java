@@ -30,6 +30,11 @@ public class PeopleMissingTimeSheet {
         dataUpdated();
     }
 
+    public void replaceAll(Employees names) {
+        this.names = names.employees;
+        dataUpdated();
+    }
+
     private void dataUpdated() {
         this.lastUpdateTime = new Date();
     }
