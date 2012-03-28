@@ -45,6 +45,7 @@ public class UpdateWallOfShameService {
         site.cleanUp();
         List<MissingPeople> peoples = new PeopleMissingTimesheetParser().parse(cvsData);
         PeopleMissingTimeSheet.getInstance().replaceAll(peoples);
+
     }
 
     private String lastSunday() {
@@ -63,4 +64,5 @@ public class UpdateWallOfShameService {
     public void setPeopleSoftSite(PeopleSoftSite site) {
         this.site = site;
     }
+
 }

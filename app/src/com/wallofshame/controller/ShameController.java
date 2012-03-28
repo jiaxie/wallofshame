@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -30,8 +31,11 @@ public class ShameController {
             return "redirect:login.html";
 
         List<MissingPeople> peoples = PeopleMissingTimeSheet.getInstance().names();
+        Date lastUpdateTime = PeopleMissingTimeSheet.getInstance().lastUpdateTime();
         model.addAttribute("peoples", peoples);
         model.addAttribute("country", country);
+        model.addAttribute("lastUpdateTime", lastUpdateTime);
+
         return "index";
 
     }

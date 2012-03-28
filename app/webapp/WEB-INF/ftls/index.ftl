@@ -12,39 +12,63 @@
 	<!--[if lt IE 8]><link rel="stylesheet" href="${requestContext.contextPath}/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
     <script type="text/javascript" src="${requestContext.contextPath}/javascripts/jquery-1.5.2.min.js"></script>
     <script type="text/javascript">
-            $(function() {
+            jQuery(function() {
+                setUpBrickSlider();
+                setUpLastUpdateTimeCounter();
 
-                        function interval(){
-                            return 3000;
-                        }
+            });
 
-            			setInterval(function() {
+            function setUpLastUpdateTimeCounter(){
+                var startDateStr = jQuery('#lastUpdateTime').text();
+                var startDate = new Date(startDateStr);
+                var startMills = startDate.getTime();
+                setInterval(function(){
+                    var now = new Date();
+                    var nowMills = now.getTime();
+                    var mins = Math.floor((nowMills-startMills)/(1000*60))%60;
+                    var hours = Math.floor((nowMills-startMills)/(1000*60*60));
+                    jQuery('#lastUpdateTime').text(hours+' hours '+ mins+' minutes ago');
 
-                            if(isAllBricksOnWall())
-                                return;
+                },500);
+              }
 
-                            slideBricks();
+            function interval(){
+                return 3000;
+            }
 
-            			},  interval());
+            function setUpBrickSlider(){
+                setInterval(function() {
 
-                        function slideBricks(){
+                    if(isAllBricksOnWall())
+                        return;
 
-            			    $('#wallslider > li:first').fadeOut(1000,function(){
-            			         $('#wallslider > li:first').appendTo('#wallslider');
-            			         $('#wallslider > li:last').show();
-            			    });
-                        }
-                        function isAllBricksOnWall(){
-                             var viewportHeight = $(window).height();
-                             var sliderHeight =  $('#wallslider > li:last').offset().top + $('#wallslider > li:last').outerHeight();
-            			     return viewportHeight >= sliderHeight;
-                        }
-            		});
+                    slideBricks();
+
+                },  interval());
+            }
+
+            function slideBricks(){
+
+                $('#wallslider > li:first').fadeOut(1000,function(){
+                     $('#wallslider > li:first').appendTo('#wallslider');
+                     $('#wallslider > li:last').show();
+                });
+            }
+            function isAllBricksOnWall(){
+                 var viewportHeight = $(window).height();
+                 if($('#wallslider >li:last').offset() == null)
+                   return true;
+                 var sliderHeight =  $('#wallslider > li:last').offset().top + $('#wallslider > li:last').outerHeight();
+                 return viewportHeight >= sliderHeight;
+            }
         </script>
 </head>
 <body>
     <#include "/includes/revision.ftl">
 <h1 class="title">Please submit your timesheet</h1>
+<div style="margin-top:-30px;width:100%;display:block;text-align:right;background-color:gray;">
+<h2 style="padding-right:20px;">Last Updated: <span id="lastUpdateTime">${lastUpdateTime?string("yyyy-MM-dd HH:mm:ss")}</span></h2>
+</div>
 <ul id="wallslider" name="wallslider">
     
     <#list peoples as people>
