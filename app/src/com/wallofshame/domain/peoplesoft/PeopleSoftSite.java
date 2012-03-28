@@ -4,14 +4,9 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.wallofshame.domain.Credential;
 import com.wallofshame.domain.Employees;
 import com.wallofshame.domain.EmployeesParser;
-import com.wallofshame.repository.MissingTimeSheetRepositoryPeopleSoftImple;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Since: 3/19/12
@@ -40,6 +35,11 @@ public class PeopleSoftSite {
             this.cleanUp();
         }
         return new Employees();
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
     public String convertDateAsString(DateTime lastSunDay) {
