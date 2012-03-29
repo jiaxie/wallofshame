@@ -1,7 +1,6 @@
-package com.wallofshame.domain.peoplesoft;
+package com.wallofshame.repository.peoplesoft;
 
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.wallofshame.domain.Credential;
 import com.wallofshame.domain.Employees;
 import com.wallofshame.domain.EmployeesParser;
 import org.apache.commons.lang.time.FastDateFormat;

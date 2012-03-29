@@ -1,7 +1,7 @@
 package com.wallofshame.controller;
 
 
-import com.wallofshame.domain.Credential;
+import com.wallofshame.repository.peoplesoft.Credential;
 import com.wallofshame.domain.Employee;
 import com.wallofshame.domain.PeopleMissingTimeSheet;
 import com.wallofshame.service.UpdateWallOfShameService;

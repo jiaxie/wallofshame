@@ -1,7 +1,7 @@
 package com.wallofshame.repository;
 
 import com.wallofshame.domain.*;
-import com.wallofshame.domain.peoplesoft.PeopleSoftSite;
+import com.wallofshame.repository.peoplesoft.PeopleSoftSite;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 

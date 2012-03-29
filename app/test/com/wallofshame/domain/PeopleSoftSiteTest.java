@@ -1,7 +1,7 @@
 package com.wallofshame.domain;
 
-import com.wallofshame.domain.peoplesoft.BadCredentialException;
-import com.wallofshame.domain.peoplesoft.PeopleSoftSite;
+import com.wallofshame.repository.peoplesoft.BadCredentialException;
+import com.wallofshame.repository.peoplesoft.PeopleSoftSite;
 import org.junit.Ignore;
 import org.junit.Test;
 

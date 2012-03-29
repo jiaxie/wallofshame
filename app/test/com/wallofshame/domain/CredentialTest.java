@@ -1,6 +1,6 @@
 package com.wallofshame.domain;
 
-import com.wallofshame.domain.Credential;
+import com.wallofshame.repository.peoplesoft.Credential;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

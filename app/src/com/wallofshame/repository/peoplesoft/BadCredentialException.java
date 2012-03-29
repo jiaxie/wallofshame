@@ -1,4 +1,4 @@
-package com.wallofshame.domain.peoplesoft;
+package com.wallofshame.repository.peoplesoft;
 
 /**
  * Since: 3/26/12
