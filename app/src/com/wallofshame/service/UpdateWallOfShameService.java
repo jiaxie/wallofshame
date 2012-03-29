@@ -32,19 +32,19 @@ public class UpdateWallOfShameService {
     //scheduled at every 2 hours
     @Scheduled(fixedRate = 1000 * 60 * 60 * 2)
     public void pullUpdates() {
-        Employees employees = repo.lookUp(lastSunday(), companyId());
+        Employees employees = repo.lookUp(QueryCondition.getLastSunday(), QueryCondition.getCompanyId());
         PeopleMissingTimeSheet.getInstance().replaceAll(employees);
     }
 
-    private String lastSunday() {
-        Calendar today = Calendar.getInstance();
-        int dayOfWeek = today.get(Calendar.DAY_OF_WEEK) - 1;
-        Date lastSunday = DateUtils.addDays(today.getTime(), 0 - dayOfWeek);
-        return FastDateFormat.getInstance("dd/MM/yyyy").format(lastSunday);
-    }
-
-    private String companyId() {
-        //TCH mean China
-        return "TCH";
-    }
+//    private String lastSunday() {
+//        Calendar today = Calendar.getInstance();
+//        int dayOfWeek = today.get(Calendar.DAY_OF_WEEK) - 1;
+//        Date lastSunday = DateUtils.addDays(today.getTime(), 0 - dayOfWeek);
+//        return FastDateFormat.getInstance("dd/MM/yyyy").format(lastSunday);
+//    }
+//
+//    private String companyId() {
+//        //TCH mean China
+//        return "TCH";
+//    }
 }

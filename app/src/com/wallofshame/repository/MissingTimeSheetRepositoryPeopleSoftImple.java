@@ -27,19 +27,19 @@ public class MissingTimeSheetRepositoryPeopleSoftImple implements MissingTimeShe
             logger.info("Wrong password or username.Please check! People missing timesheet were not fetched.");
             return new Employees();
         }
-        String cvsData = peopleSoft.fetchCvsOfPeopleMissingTimesheet(lastSunday(), companyId());
+        String cvsData = peopleSoft.fetchCvsOfPeopleMissingTimesheet(QueryCondition.getLastSunday(), QueryCondition.getCompanyId());
         peopleSoft.cleanUp();
         return new EmployeesParser().parse(cvsData);
     }
 
-    private String lastSunday() {
-        Calendar today = Calendar.getInstance();
-        int dayOfWeek = today.get(Calendar.DAY_OF_WEEK) - 1;
-        Date lastSunday = DateUtils.addDays(today.getTime(), 0 - dayOfWeek);
-        return FastDateFormat.getInstance("dd/MM/yyyy").format(lastSunday);
-    }
-
-    private String companyId() {
-        return "TCH";
-    }
+//    private String lastSunday() {
+//        Calendar today = Calendar.getInstance();
+//        int dayOfWeek = today.get(Calendar.DAY_OF_WEEK) - 1;
+//        Date lastSunday = DateUtils.addDays(today.getTime(), 0 - dayOfWeek);
+//        return FastDateFormat.getInstance("dd/MM/yyyy").format(lastSunday);
+//    }
+//
+//    private String companyId() {
+//        return "TCH";
+//    }
 }

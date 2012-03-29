@@ -3,7 +3,6 @@ package com.wallofshame.controller;
 import com.wallofshame.domain.Credential;
 import com.wallofshame.service.MailNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +31,7 @@ public class ControlPanelController {
 
     @RequestMapping(value="/control.html",method = RequestMethod.POST)
     public String sendEmail(Model model){
-          mailNotificationService.nofityMissingPeopleAsyn();
+          mailNotificationService.notifyMissingPeopleAsyn();
           model.addAttribute("info","Mails are sent!");
           return "control";
     }
