@@ -32,14 +32,4 @@ public class MissingTimeSheetRepositoryPeopleSoftImple implements MissingTimeShe
         return new EmployeesParser().parse(cvsData);
     }
 
-//    private String lastSunday() {
-//        Calendar today = Calendar.getInstance();
-//        int dayOfWeek = today.get(Calendar.DAY_OF_WEEK) - 1;
-//        Date lastSunday = DateUtils.addDays(today.getTime(), 0 - dayOfWeek);
-//        return FastDateFormat.getInstance("dd/MM/yyyy").format(lastSunday);
-//    }
-//
-//    private String companyId() {
-//        return "TCH";
-//    }
 }
