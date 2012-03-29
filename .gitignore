@@ -4,3 +4,5 @@ dist
 *.log.*
 target
 app/webapp/WEB-INF/classes
+*.iws
+.DS_Store
