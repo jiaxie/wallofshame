@@ -40,7 +40,6 @@
         <property name="text" value="Please submit your timesheet ASAP." />
         <property name="cc">
             <list>
-                <value>zhengli@thoughtworks.com</value>
                 <value>noreply.timesheet@gmail.com</value>
             </list>
         </property>
