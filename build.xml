@@ -93,6 +93,7 @@
     </target>
 
     <target name="run.test" depends="compile.test" description="execute the tests">
+        <copyfile src="${test.dir}/spring-mail-test.xml" dest="${compiled.test.dir}/spring-mail-test.xml" />
         <junit>
             <classpath refid="run.test.classpath"/>
             <batchtest>
@@ -100,6 +101,7 @@
             </batchtest>
             <formatter type="plain" usefile="false"/>
         </junit>
+        <delete file="${compiled.test.dir}/spring-mail-test.xml" failonerror="false" />
     </target>
 
     <target name="jar.source" depends="compile.src">
