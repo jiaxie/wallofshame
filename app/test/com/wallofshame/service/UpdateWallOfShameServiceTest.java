@@ -60,6 +60,20 @@ public class UpdateWallOfShameServiceTest {
         Date lastUpdateTime = PeopleMissingTimeSheet.getInstance().lastUpdateTime();
         assertTrue(lastUpdateTime.after(timeBeforeUpdate));
     }
+
+    @Test
+    public void should_record_last_update_time_even_if_no_missing_people(){
+        Date timeBeforeUpdate = DateUtils.addSeconds(new Date(),-2);
+        UpdateWallOfShameService service = new UpdateWallOfShameService(new MissingTimeSheetRepository(){
+
+            public Employees lookUp(DateTime lastSunDay, String officeId) {
+                return new Employees();
+            }
+        });
+        service.pullUpdates();
+        Date lastUpdateTime = PeopleMissingTimeSheet.getInstance().lastUpdateTime();
+        assertTrue(lastUpdateTime.after(timeBeforeUpdate));
+    }
     
     private void assertContainsName(List<Employee> names, Employee exEmployee) {
         for(Employee name : names)

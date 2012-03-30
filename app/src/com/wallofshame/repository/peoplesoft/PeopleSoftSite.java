@@ -30,7 +30,10 @@ public class PeopleSoftSite {
             return new EmployeesParser().parse(cvsData);
         } catch (BadCredentialException badCredentialException) {
             logger.info("Wrong password or username.Please check! People missing timesheet were not fetched.");
-        } finally {
+        } catch (NoContentException nce){
+            logger.info("No people missing timesheet csv content downloaded.");
+           return new Employees();
+        }  finally {
             this.cleanUp();
         }
         return new Employees();

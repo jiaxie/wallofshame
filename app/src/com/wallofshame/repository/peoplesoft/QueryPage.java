@@ -1,9 +1,11 @@
 package com.wallofshame.repository.peoplesoft;
 
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.UnexpectedPage;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
@@ -11,6 +13,8 @@ import java.io.IOException;
  * Since: 3/16/12
  */
 public class QueryPage {
+
+    private static Logger logger = Logger.getLogger(QueryPage.class);
 
     public static final String QUERY_PAGE_URL = "http://psfs89.thoughtworks.com/psc/fsprd89_1/EMPLOYEE/ERP/q/?ICAction=ICQryNameURL=TW_TIME_COUNTRY_MISSING";
     private WebClient webClient;
@@ -29,19 +33,28 @@ public class QueryPage {
 
         prepareSearchConditions();
         String result = "";
+        HtmlPage searchResultPage = null;
         try {
-        HtmlPage searchResultPage = viewResultsButton().click();
-            result = downloadPeopleCSV(searchResultPage);
+            searchResultPage = viewResultsButton().click();
         } catch (IOException e) {
-            return "";
+            logger.error("failed to search people missing timesheet.",e);
         }
+        result = downloadPeopleCSV(searchResultPage);
         return result;
     }
 
-    private String downloadPeopleCSV(HtmlPage resultPage) throws IOException {
+    private String downloadPeopleCSV(HtmlPage resultPage) {
         UnexpectedPage csvFile = null;
-        csvFile = cvsDownloadLink(resultPage).click();
-        return IOUtils.toString(csvFile.getInputStream());
+        String csv = null;
+        try {
+            csvFile = cvsDownloadLink(resultPage).click();
+            csv = IOUtils.toString(csvFile.getInputStream());
+        } catch (IOException e) {
+            logger.error("failed to download csv.",e);
+        } catch (ElementNotFoundException enfe){
+            throw new NoContentException();
+        }
+        return csv;
     }
 
     private HtmlAnchor cvsDownloadLink(HtmlPage resultPage) {
