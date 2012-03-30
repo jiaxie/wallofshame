@@ -19,7 +19,7 @@
     if (ie5 || document.readyState == "complete")     {
       filterEl = el.children[0];
       valueEl = el.children[1];
-      filterEl.style.width = v + "%";
+      filterEl.style.width = v*5 + "px";
       valueEl.innerText = v + "%";
     }
   }
@@ -40,7 +40,7 @@
 <font size="15" color="red">Loading data, please wait for a moment!</font>
     <br><br>
 <span id=sb style="width: 302px">
-<div style="filter: Alpha(Opacity=0, FinishOpacity=60, style=1, StartX=10, StartY=0, FinishX=90, FinishY=0); width: 0%; height: 30px; position: absolute; background: #0066cc"></div>
+<div style="filter: Alpha(Opacity=20);margin-left:400px; width: 0%;height: 40px; position: absolute; background: #0066cc"></div>
 <div style="font-size: 30pt; width: 100%; margin: 40px 0px 0px 0px;  text-align: center"></DIV>
 </span>
 </center>
