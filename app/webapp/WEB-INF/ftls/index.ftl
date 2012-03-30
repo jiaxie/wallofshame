@@ -67,7 +67,7 @@
     <#include "/includes/revision.ftl">
 <h1 class="title">Please submit your timesheet</h1>
 <div style="margin-top:-30px;width:100%;display:block;text-align:right;background-color:gray;">
-<h2 style="padding-right:20px;">Last Updated: <span id="lastUpdateTime">${lastUpdateTime?string("yyyy-MM-dd HH:mm:ss")}</span></h2>
+<h2 style="padding-right:20px;">Last Updated: <span id="lastUpdateTime">${lastUpdateTime?string("yyyy/MM/dd HH:mm:ss")}</span></h2>
 </div>
 <ul id="wallslider" name="wallslider">
     
