@@ -31,7 +31,7 @@ public class ControlPanelController {
 
     @RequestMapping(value="/control.html",method = RequestMethod.POST)
     public String sendEmail(Model model){
-          mailNotificationService.nofityMissingPeopleAsyn();
+          mailNotificationService.notifyMissingPeopleAsyn();
           model.addAttribute("info","Mails are sent!");
           return "control";
     }

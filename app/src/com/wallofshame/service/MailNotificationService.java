@@ -32,7 +32,7 @@ public class MailNotificationService {
         this.templateMessage = templateMessage;
     }
     
-    public void nofityMissingPeopleAsyn() {
+    public void notifyMissingPeopleAsyn() {
         ExecutorService service  = Executors.newSingleThreadExecutor();
         service.submit(new AsynNotificationTask());
         service.shutdown();
@@ -43,7 +43,7 @@ public class MailNotificationService {
     public void notifyMissingPeople() {
 
         List<Employee> peoples = PeopleMissingTimeSheet.getInstance().names();
-        String[] toList = collectToList(peoples);
+        String[] toList = collectEmailToList(peoples);
         String text = buildMailText(peoples);
         SimpleMailMessage message = new SimpleMailMessage(templateMessage);
         message.setTo(toList);
@@ -52,7 +52,7 @@ public class MailNotificationService {
 
     }
 
-    private String[] collectToList(List<Employee> peoples) {
+    private String[] collectEmailToList(List<Employee> peoples) {
         List<String> tos = new ArrayList<String>();
         for (Employee people : peoples)
             tos.add(calculateAddress(people));

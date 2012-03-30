@@ -12,12 +12,39 @@
 	<!--[if lt IE 8]><link rel="stylesheet" href="${requestContext.contextPath}/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
     <script type="text/javascript" src="${requestContext.contextPath}/javascripts/jquery-1.5.2.min.js"></script>
 
+
+<script language="javascript">
+  function setSB(v, el) {
+    var ie5 = (document.all  &&  document.getElementsByTagName);
+    if (ie5 || document.readyState == "complete")     {
+      filterEl = el.children[0];
+      valueEl = el.children[1];
+      filterEl.style.width = v + "%";
+      valueEl.innerText = v + "%";
+    }
+  }
+  function fakeProgress(v, el) {
+    if (v > 100)
+      location.href = "/";
+    else     {
+      setSB(v, el);
+      window.setTimeout("fakeProgress(" + (++v) + ", document.all['" + el.id + "'])", 200);
+    }
+  }
+</script>
 </head>
-<body>
-    <#include "/includes/revision.ftl">
-<center><strong><font size="35px" color="red" align="center"></br></br>Loading data for the first time... </br>
-             Please wait for a while......</font>
- </strong></center>
+
+<body onload="fakeProgress(0, sb)">
+<center>
+   <br><br>
+<font size="15" color="red">Loading data, please wait for a moment!</font>
+    <br><br>
+<span id=sb style="width: 302px">
+<div style="filter: Alpha(Opacity=0, FinishOpacity=60, style=1, StartX=10, StartY=0, FinishX=90, FinishY=0); width: 0%; height: 30px; position: absolute; background: #0066cc"></div>
+<div style="font-size: 30pt; width: 100%; margin: 40px 0px 0px 0px;  text-align: center"></DIV>
+</span>
+</center>
+
 
 
 </body>
