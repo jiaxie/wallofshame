@@ -1,7 +1,7 @@
 package com.wallofshame.domain;
 
-import com.wallofshame.domain.peoplesoft.BadCredentialException;
-import com.wallofshame.domain.peoplesoft.PeopleSoftSite;
+import com.wallofshame.repository.peoplesoft.BadCredentialException;
+import com.wallofshame.repository.peoplesoft.PeopleSoftSite;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -31,4 +31,12 @@ public class PeopleSoftSiteTest {
         String csvData = site.fetchCvsOfPeopleMissingTimesheet("31/12/2016","TCH");
         assertTrue(csvData.contains(HEADER_LINE));
     }
+
+    @Test
+    @Ignore
+    public void should_parse_the_date_to_certain_format() throws Exception {
+
+    }
+
+
 }

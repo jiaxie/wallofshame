@@ -1,4 +1,4 @@
-package com.wallofshame.domain.peoplesoft;
+package com.wallofshame.repository.peoplesoft;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;

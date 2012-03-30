@@ -1,6 +1,6 @@
 package com.wallofshame.controller;
 
-import com.wallofshame.domain.Credential;
+import com.wallofshame.repository.peoplesoft.Credential;
 import com.wallofshame.service.MailNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

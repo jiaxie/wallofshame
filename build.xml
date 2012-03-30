@@ -13,12 +13,14 @@
     <property name="pkg.tomcat.war.name" value="${ant.project.name}.war"/>
     <property name="pkg.tomcat.dir" value="${dist.dir}/tomcat"/>
     <property name="tomcat.contextPath" value="/${ant.project.name}" />
-    <property name="tomcat.manager.url" value="http://10.18.8.76:8080/manager"/>
-    <property name="tomcat.username" value="tomcat"/>
-    <property name="tomcat.password" value="tomcat"/>
 
-    <taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask"/>
-    <taskdef name="undeploy" classname="org.apache.catalina.ant.UndeployTask"/>
+    <property file="${basedir}/tomcat.properties" />
+
+    <taskdef file="${basedir}/tomcatTasks.properties">
+        <classpath>
+            <pathelement path="${basedir}/app/lib/catalina-ant.jar"/>
+        </classpath>
+    </taskdef>
 
     <path id="source.lib.classpath">
         <fileset dir="app/webapp/WEB-INF/lib">

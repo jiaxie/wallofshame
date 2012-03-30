@@ -1,4 +1,4 @@
-package com.wallofshame.domain;
+package com.wallofshame.repository.peoplesoft;
 
 import org.apache.commons.lang.StringUtils;
 
