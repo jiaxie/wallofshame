@@ -1,4 +1,4 @@
-package com.wallofshame.domain;
+package com.wallofshame.service.peoplesoft;
 
 import com.wallofshame.repository.peoplesoft.BadCredentialException;
 import com.wallofshame.repository.peoplesoft.PeopleSoftSite;

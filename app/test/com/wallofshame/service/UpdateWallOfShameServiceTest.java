@@ -1,66 +1,91 @@
 package com.wallofshame.service;
 
-import com.wallofshame.utils.DateTimeUtils;
+import com.wallofshame.domain.Employee;
+import com.wallofshame.domain.Employees;
+import com.wallofshame.domain.EmployeesParser;
+import com.wallofshame.domain.PeopleMissingTimeSheet;
+import com.wallofshame.repository.MissingTimeSheetRepository;
+import com.wallofshame.service.UpdateWallOfShameService;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.List;
 
+import static org.junit.Assert.*;
+
+/**
+ * Since: 3/16/12
+ */
 public class UpdateWallOfShameServiceTest {
 
     @Test
-    public void sun_day_is_the_last_day_of_week(){
-        DateTime sunday = new DateTime().withDate(2012,3,25).withTime(0,0,1,0);
-        assertThat(sunday.dayOfWeek().get(),equalTo(7));
+    public void canPullUpdatesFromPeopleSoftSite() throws Exception {
+
+        List<Employee> names = PeopleMissingTimeSheet.getInstance().names();
+        assertTrue(names.isEmpty());
+
+        UpdateWallOfShameService service = new UpdateWallOfShameService(new MissingTimeSheetRepository(){
+
+            public Employees lookUp(DateTime lastSunDay, String officeId) {
+                String cvsData = loadCSVData();
+                return new EmployeesParser().parse(cvsData);
+            }
+        });
+        service.pullUpdates();
+        names = PeopleMissingTimeSheet.getInstance().names();
+        assertFalse(names.isEmpty());
+        assertContainsName(names,new Employee("13770","An,Hui", "Beijing"));
+
     }
+    
     @Test
-    public void monday_day_is_the_first_day_of_week(){
-        DateTime sunday = new DateTime().withDate(2012,3,26).withTime(0,0,1,0);
-        assertThat(sunday.dayOfWeek().get(),equalTo(1));
+    public void shouldRecordLastUpdateTime(){
+
+        Date timeBeforeUpdate = DateUtils.addSeconds(new Date(),-2);
+        UpdateWallOfShameService service = new UpdateWallOfShameService(new MissingTimeSheetRepository(){
+
+            public Employees lookUp(DateTime lastSunDay, String officeId) {
+                String cvsData = loadCSVData();
+                return new EmployeesParser().parse(cvsData);
+            }
+        });
+        service.pullUpdates();
+        Date lastUpdateTime = PeopleMissingTimeSheet.getInstance().lastUpdateTime();
+        assertTrue(lastUpdateTime.after(timeBeforeUpdate));
     }
-    @Test
-    public void saturday_day_is_the_second_day_of_week(){
-        DateTime sunday = new DateTime().withDate(2012,3,24).withTime(0,0,1,0);
-        assertThat(sunday.dayOfWeek().get(),equalTo(6));
+    
+    private void assertContainsName(List<Employee> names, Employee exEmployee) {
+        for(Employee name : names)
+            if(name.equals(exEmployee))
+                return;
+        fail("name does not exist..."+ exEmployee);
     }
 
-    @Test
-    public void should_return_last_sun_day_if_it_is_one_second_after_sunday() {
-        DateTime date = new DateTime().withDate(2012,3,26).withTime(0,0,1,0);
-        DateTime lastSunDay = DateTimeUtils.lastSunday(date);
-        assertThat(lastSunDay.dayOfWeek().get(),equalTo(7));
-        assertThat(1,equalTo(date.weekOfWeekyear().get()-lastSunDay.weekOfWeekyear().get()));
-        assertThat(lastSunDay.year().get(),equalTo(date.year().get()));
+
+
+
+    private String loadCSVData() throws RuntimeException {
+        File sample = new File("./app/scripts/TW_TIME_COUNTRY_MISSING.csv");
+        String result = null;
+        try {
+            InputStream is = FileUtils.openInputStream(sample);
+            assertNotNull(is);
+            result = IOUtils.toString(is);
+            IOUtils.closeQuietly(is);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 
-    @Test
-    public void should_return_today_if_it_is_one_second_before_sunday_finished() {
-        DateTime date = new DateTime().withDate(2012,3,25).withTime(23,59,59,0);
-        DateTime lastSunDay = DateTimeUtils.lastSunday(date);
-        assertThat(lastSunDay.dayOfWeek().get(),equalTo(7));
-        assertThat(lastSunDay.weekOfWeekyear().get(),equalTo(date.weekOfWeekyear().get()));
-    }
 
-    @Test
-    public void should_return_last_sunday_if_today_is_tuesday() {
-        DateTime tuesday = new DateTime().withDate(2012,3,27).withTime(3,54,59,0);
-        DateTime lastSunDay = DateTimeUtils.lastSunday(tuesday);
-        assertThat(lastSunDay.dayOfWeek().get(),equalTo(7));
-        assertThat(1,equalTo(tuesday.weekOfWeekyear().get()-lastSunDay.weekOfWeekyear().get()));
-        assertThat(lastSunDay.year().get(),equalTo(tuesday.year().get()));
-    }
 
-    @Test
-    public void should_return_last_sunday_evn_today_is_anyday_cross_the_year() {
-        DateTime anyDayOfTheYear = anyDayOfTheYear();
-        DateTime lastSunDay = DateTimeUtils.lastSunday(anyDayOfTheYear);
-        assertThat(lastSunDay.dayOfWeek().get(),equalTo(7));
-    }
 
-    private DateTime anyDayOfTheYear() {
-        return new DateTime();
-    }
 }

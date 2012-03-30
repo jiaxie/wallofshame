@@ -1,5 +1,8 @@
-package com.wallofshame.domain;
+package com.wallofshame.service;
 
+import com.wallofshame.domain.Employee;
+import com.wallofshame.domain.Employees;
+import com.wallofshame.domain.PeopleMissingTimeSheet;
 import com.wallofshame.service.MailNotificationService;
 import org.junit.After;
 import org.junit.Before;
