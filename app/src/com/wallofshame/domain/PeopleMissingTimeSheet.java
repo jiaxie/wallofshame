@@ -43,7 +43,7 @@ public class PeopleMissingTimeSheet {
         return Arrays.asList(new Payroll("TCH", "China"));
     }
 
-    public boolean isEmpty() {
-        return PeopleMissingTimeSheet.getInstance().employeesOf("TCH").getEmployees().isEmpty();
+    public boolean isEmpty(String payroll) {
+        return PeopleMissingTimeSheet.getInstance().employeesOf(payroll).getEmployees().isEmpty();
     }
 }

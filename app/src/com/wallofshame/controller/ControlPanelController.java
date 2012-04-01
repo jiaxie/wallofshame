@@ -4,7 +4,6 @@ import com.wallofshame.domain.PeopleMissingTimeSheet;
 import com.wallofshame.repository.peoplesoft.Credential;
 import com.wallofshame.service.MailNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +33,7 @@ public class ControlPanelController {
     public String sendEmail(Model model) {
         mailNotificationService.notifyMissingPeopleAsyn();
         String info;
-        if (PeopleMissingTimeSheet.getInstance().isEmpty()) {
+        if (PeopleMissingTimeSheet.getInstance().isEmpty("TCH")) {
 
             info = "Everyone has submited timsheet!";
         } else {

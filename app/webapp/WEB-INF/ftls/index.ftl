@@ -86,7 +86,7 @@
     <#include "/includes/revision.ftl">
 <h1 class="title">Please submit your timesheet</h1>
 <p>
-<form method="POST" action="${requestContext.contextPath}/index.html?payroll=${selectedPayroll}office=${selectedOffice}">
+<form method="POST" action="${requestContext.contextPath}/index.html?payroll=${selectedPayroll}&office=${selectedOffice}">
         <label>Payroll:</label>
         <select id="payrollSelect">
         <#list payrolls as payroll>

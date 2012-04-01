@@ -27,7 +27,7 @@ public class ShameController {
     @Autowired
     private MailNotificationService mailNotificationService;
 
-    @RequestMapping(value = "/index .html", method = RequestMethod.GET)
+    @RequestMapping(value = "/index.html", method = RequestMethod.GET)
     public String index(Model model,
                         @RequestParam(value = "payroll", defaultValue = "TCH") String payroll,
                         @RequestParam(value = "office", defaultValue = "All") String office) {
@@ -110,12 +110,12 @@ public class ShameController {
                             @RequestParam(value = "payroll", defaultValue = "TCH") String payroll,
                             @RequestParam(value = "office", defaultValue = "All") String office) {
 
-        mailNotificationService.notifyMissingPeopleAsyn();
-        String info = "Mails are sent!";
-        if (PeopleMissingTimeSheet.getInstance().isEmpty()) {
-            info = "Everyone has submited timsheet!";
+        if (PeopleMissingTimeSheet.getInstance().isEmpty(payroll)) {
+            model.addAttribute("info", "Everyone has submited timsheet!");
+            return index(model, payroll, office);
         }
-        model.addAttribute("info", info);
+        mailNotificationService.notifyMissingPeopleAsyn();
+        model.addAttribute("info", "Email sent!");
 
         return index(model, payroll, office);
     }

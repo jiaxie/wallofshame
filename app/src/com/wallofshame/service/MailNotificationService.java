@@ -50,10 +50,11 @@ public class MailNotificationService {
     }
 
     private void notifyMissingPeopleUnderPayroll(Payroll payroll) {
-        List<Employee> peoples = PeopleMissingTimeSheet.getInstance().employeesOf(payroll.getCode()).getEmployees();
-        if (peoples.isEmpty()) {
+        PeopleMissingTimeSheet timeSheet = PeopleMissingTimeSheet.getInstance();
+        if (timeSheet.isEmpty(payroll.getCode())) {
             return;
         }
+        List<Employee> peoples = timeSheet.employeesOf(payroll.getCode()).getEmployees();
         String[] toList = collectEmailToList(peoples);
         String text = buildMailText(peoples);
         SimpleMailMessage message = new SimpleMailMessage(templateMessage);
