@@ -10,7 +10,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -106,9 +105,10 @@ public class ShameController {
     }
 
 
-    @RequestMapping(value = "/{country}.html", method = RequestMethod.POST)
-    public String sendEmail(Model model, @PathVariable("country") String country,
-                            @RequestParam("office") String office) {
+    @RequestMapping(value = "/index.html", method = RequestMethod.POST)
+    public String sendEmail(Model model,
+                            @RequestParam(value = "payroll", defaultValue = "TCH") String payroll,
+                            @RequestParam(value = "office", defaultValue = "All") String office) {
 
         mailNotificationService.notifyMissingPeopleAsyn();
         String info = "Mails are sent!";
@@ -117,7 +117,7 @@ public class ShameController {
         }
         model.addAttribute("info", info);
 
-        return index(model, country, office);
+        return index(model, payroll, office);
     }
 
 
