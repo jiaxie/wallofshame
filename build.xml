@@ -12,9 +12,9 @@
 
     <property name="pkg.tomcat.war.name" value="${ant.project.name}.war"/>
     <property name="pkg.tomcat.dir" value="${dist.dir}/tomcat"/>
-    <property name="tomcat.contextPath" value="/${ant.project.name}" />
+    <property name="tomcat.contextPath" value="/${ant.project.name}"/>
 
-    <property file="${basedir}/tomcat.properties" />
+    <property file="${basedir}/tomcat.properties"/>
 
     <taskdef file="${basedir}/tomcatTasks.properties">
         <classpath>
@@ -93,7 +93,7 @@
     </target>
 
     <target name="run.test" depends="compile.test" description="execute the tests">
-        <copyfile src="${test.dir}/spring-mail-test.xml" dest="${compiled.test.dir}/spring-mail-test.xml" />
+        <copyfile src="${test.dir}/spring-mail-test.xml" dest="${compiled.test.dir}/spring-mail-test.xml"/>
         <junit>
             <classpath refid="run.test.classpath"/>
             <batchtest>
@@ -101,7 +101,7 @@
             </batchtest>
             <formatter type="plain" usefile="false"/>
         </junit>
-        <delete file="${compiled.test.dir}/spring-mail-test.xml" failonerror="false" />
+        <delete file="${compiled.test.dir}/spring-mail-test.xml" failonerror="false"/>
     </target>
 
     <target name="jar.source" depends="compile.src">
@@ -126,11 +126,13 @@
     </target>
 
     <target name="tag" depends="git.revision">
-        <filter token="revision" value="${repository.version}" />
-        <echo message="current revision: ${repository.version}" />
-        <copy filtering="true" file="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl" tofile="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl.tmp"  />
-        <delete file="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl" ></delete>
-        <move file="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl.tmp" tofile="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl" />
+        <filter token="revision" value="${repository.version}"/>
+        <echo message="current revision: ${repository.version}"/>
+        <copy filtering="true" file="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl"
+              tofile="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl.tmp"/>
+        <delete file="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl"></delete>
+        <move file="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl.tmp"
+              tofile="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl"/>
     </target>
 
     <target name="pkg.tomcat.war" depends="pkg">
@@ -138,20 +140,20 @@
              excludes="**/lib/servlet-api-2.5-20081211.jar"/>
     </target>
 
-
     <target name="clean.dist">
         <delete dir="${dist.dir}"/>
     </target>
 
-    <target name="deploy.tomcat" if="timesheet.war.present">
+    <target name="deploy.tomcat">
         <echo message="deploying to ${tomcat.manager.url}"/>
         <deploy url="${tomcat.manager.url}" username="${tomcat.username}" password="${tomcat.password}"
                 path="${tomcat.contextPath}" war="file:${pkg.tomcat.dir}/${pkg.tomcat.war.name}"/>
     </target>
 
-    <target name="undeploy.tomcat" >
+    <target name="undeploy.tomcat">
         <echo message="undeploying /${ant.project.name}"/>
-        <undeploy url="${tomcat.manager.url}" username="${tomcat.username}" password="${tomcat.password}"   failonerror="false"
+        <undeploy url="${tomcat.manager.url}" username="${tomcat.username}" password="${tomcat.password}"
+                  failonerror="false"
                   path="${tomcat.contextPath}"/>
     </target>
 
@@ -160,7 +162,8 @@
 
     <available property="timesheet.war.present" file="${pkg.tomcat.dir}/${pkg.tomcat.war.name}" type="file"/>
 
-    <target name="go" depends="pkg.tomcat.war, redeploy.tomcat" description="one key to deploy application automatically.">
+    <target name="go" depends="pkg.tomcat.war, redeploy.tomcat"
+            description="one key to deploy application automatically.">
     </target>
 
 
