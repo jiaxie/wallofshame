@@ -6,6 +6,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -37,11 +38,11 @@ public class DateTimeUtilsTest {
     }
 
     @Test
-    public void should_return_today_if_it_is_one_second_before_sunday_finished() {
-DateTime date = new DateTime().withDate(2012,3,25).withTime(23,59,59,0);
+    public void should_not_return_today_if_it_is_one_second_before_sunday_finished() {
+        DateTime date = new DateTime().withDate(2012,3,25).withTime(23,59,59,0);
         DateTime lastSunDay = DateTimeUtils.lastSunday(date);
         assertThat(lastSunDay.dayOfWeek().get(),equalTo(7));
-        assertThat(lastSunDay.weekOfWeekyear().get(),equalTo(date.weekOfWeekyear().get()));
+        assertThat(lastSunDay.weekOfWeekyear().get(),not(date.weekOfWeekyear().get()));
     }
 
     @Test
