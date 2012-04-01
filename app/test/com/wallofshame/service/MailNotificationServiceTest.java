@@ -37,7 +37,8 @@ public class MailNotificationServiceTest {
     @Test
     public void canSendEmailToPeopleMissingTimesheet() throws Exception {
         mailNotificationService.notifyMissingPeople();
-    } 
+    }
+
 
     @After
     public void after() throws Exception{

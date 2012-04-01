@@ -43,6 +43,9 @@ public class MailNotificationService {
     public void notifyMissingPeople() {
 
         List<Employee> peoples = PeopleMissingTimeSheet.getInstance().employeesOf("TCH").getEmployees();
+        if(peoples.isEmpty()){
+            return ;
+        }
         String[] toList = collectEmailToList(peoples);
         String text = buildMailText(peoples);
         SimpleMailMessage message = new SimpleMailMessage(templateMessage);

@@ -42,4 +42,8 @@ public class PeopleMissingTimeSheet {
     public List<Payroll> supportedPayrolls(){
         return Arrays.asList(new Payroll("TCH","China"));
     }
+
+    public boolean isEmpty() {
+        return PeopleMissingTimeSheet.getInstance().employeesOf("TCH").getEmployees().isEmpty();
+    }
 }
