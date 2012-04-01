@@ -1,21 +1,16 @@
 package com.wallofshame.service;
 
-import com.wallofshame.domain.*;
+import com.wallofshame.domain.Employees;
+import com.wallofshame.domain.Payroll;
+import com.wallofshame.domain.PeopleMissingTimeSheet;
 import com.wallofshame.repository.MissingTimeSheetRepository;
 import com.wallofshame.utils.DateTimeUtils;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-
-import static org.junit.Assert.assertNotNull;
 
 /**
  * Since: 3/16/12
@@ -34,14 +29,14 @@ public class TimesheetUpdateServiceImpl implements TimesheetUpdateService {
     @Scheduled(fixedRate = 1000 * 60 * 60 * 2)
     public void batchPullUpdates() {
         List<Payroll> payrolls = PeopleMissingTimeSheet.getInstance().supportedPayrolls();
-        for(Payroll payroll : payrolls){
+        for (Payroll payroll : payrolls) {
             pullSingleUpdate(payroll);
         }
     }
 
     private void pullSingleUpdate(final Payroll payroll) {
-        Employees employees = repo.lookUp(lastSunday(),payroll.getCode());
-        PeopleMissingTimeSheet.getInstance().replaceAll(payroll.getCode(),employees);
+        Employees employees = repo.lookUp(lastSunday(), payroll.getCode());
+        PeopleMissingTimeSheet.getInstance().replaceAll(payroll.getCode(), employees);
     }
 
     private DateTime lastSunday() {
