@@ -40,4 +40,8 @@ public class PeopleMissingTimeSheet {
     public Date lastUpdateTime() {
         return lastUpdateTime;
     }
+
+    public boolean isEmpty() {
+        return PeopleMissingTimeSheet.getInstance().names().isEmpty();
+    }
 }
