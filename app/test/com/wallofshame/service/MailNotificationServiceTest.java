@@ -3,7 +3,6 @@ package com.wallofshame.service;
 import com.wallofshame.domain.Employee;
 import com.wallofshame.domain.Employees;
 import com.wallofshame.domain.PeopleMissingTimeSheet;
-import com.wallofshame.service.MailNotificationService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +31,7 @@ public class MailNotificationServiceTest {
         List<Employee> people = new ArrayList<Employee>();
         people.add(new Employee("zhengli","Zhiheng Li", "Chengdu"));
         people.add(new Employee("xjsi","Xiaojing Si", "Xi'an"));
-        PeopleMissingTimeSheet.getInstance().replaceAll(new Employees(people));
+        PeopleMissingTimeSheet.getInstance().replaceAll("TCH", new Employees(people));
     }
 
     @Test
@@ -42,7 +41,7 @@ public class MailNotificationServiceTest {
 
     @After
     public void after() throws Exception{
-        PeopleMissingTimeSheet.getInstance().replaceAll(new Employees(new ArrayList<Employee>()));
+        PeopleMissingTimeSheet.getInstance().replaceAll("TCH", new Employees(new ArrayList<Employee>()));
     }
     public void setMailNotificationService(MailNotificationService mailNotificationService) {
         this.mailNotificationService = mailNotificationService;

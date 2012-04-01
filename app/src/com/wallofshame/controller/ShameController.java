@@ -1,10 +1,10 @@
 package com.wallofshame.controller;
 
 
-import com.wallofshame.repository.peoplesoft.Credential;
-import com.wallofshame.domain.Employee;
+import com.wallofshame.domain.Employees;
 import com.wallofshame.domain.PeopleMissingTimeSheet;
-import com.wallofshame.service.UpdateWallOfShameService;
+import com.wallofshame.repository.peoplesoft.Credential;
+import com.wallofshame.service.TimesheetUpdateService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,32 +12,49 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Controller
 public class ShameController {
 
 
     @Autowired
-    private UpdateWallOfShameService updateWallOfShameService;
+    private TimesheetUpdateService updateWallOfShameService;
 
     @RequestMapping(value = "/{country}.html", method = RequestMethod.GET)
-    public String index(Model model, @PathVariable("country") String country) {
+    public String index(Model model, @PathVariable("country") String country,
+                        @RequestParam("office") String office) {
 
         if (Credential.getInstance().isEmpty())
-            return "redirect:login.html";
+            return "redirect:/login.html";
 
-        List<Employee> peoples = PeopleMissingTimeSheet.getInstance().names();
-        Date lastUpdateTime = PeopleMissingTimeSheet.getInstance().lastUpdateTime();
-        model.addAttribute("peoples", peoples);
+        PeopleMissingTimeSheet timeSheet = PeopleMissingTimeSheet.getInstance();
+        Employees employees = timeSheet.employeesOf(country);
+        Date lastUpdateTime = timeSheet.lastUpdateTime();
+        model.addAttribute("peoples", employees.atOffice(office));
+        Set<String> offices = employees.availableOffices();
+             office = "All";
+        model.addAttribute("offices", offices);
         model.addAttribute("country", country);
+        model.addAttribute("selectedOffice", office);
+        model.addAttribute("payrolls", timeSheet.supportedPayrolls());
         model.addAttribute("lastUpdateTime", lastUpdateTime);
 
         return "index";
 
+    }
+
+    private boolean stillValidOffice(String office, Set<String> offices) {
+        if("All".equals(office))
+            return true;
+        for(String each : offices)
+            if(each.equals(office))
+                return true;
+        return false;
     }
 
     @RequestMapping(value = "/login.html", method = RequestMethod.GET)
@@ -62,7 +79,8 @@ public class ShameController {
 
     @RequestMapping(value = "/loading.html", method = RequestMethod.GET)
     public String loading(Model model) {
-        model.addAttribute("country", "China");
+        model.addAttribute("payroll", "TCH");
+        model.addAttribute("office", "All");
         return "load";
     }
 
@@ -70,13 +88,13 @@ public class ShameController {
         new Thread(new Runnable() {
             public void run() {
 
-                updateWallOfShameService.pullUpdates();
+                updateWallOfShameService.batchPullUpdates();
 
             }
         }).start();
     }
 
-    public void setUpdateWallOfShameService(UpdateWallOfShameService updateWallOfShameService) {
+    public void setUpdateWallOfShameService(TimesheetUpdateService updateWallOfShameService) {
         this.updateWallOfShameService = updateWallOfShameService;
     }
 

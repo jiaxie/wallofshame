@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <meta http-equiv="refresh" content="60;url=${requestContext.contextPath}/${country}.html"/>
+    <meta http-equiv="refresh" content="60;url=${requestContext.contextPath}/${country}.html?office=${selectedOffice}"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>People who did not commit timesheet on time.</title>
 	<!-- Framework CSS -->
@@ -15,7 +15,8 @@
             jQuery(function() {
                 setUpBrickSlider();
                 setUpLastUpdateTimeCounter();
-
+                jQuery('#companySelect').change(refreshPageForSelectedCompany);
+                jQuery('#officeSelect').change(refreshPageForSelectedOffice);
             });
 
             function setUpLastUpdateTimeCounter(){
@@ -61,14 +62,64 @@
                  var sliderHeight =  $('#wallslider > li:last').offset().top + $('#wallslider > li:last').outerHeight();
                  return viewportHeight >= sliderHeight;
             }
+
+
+
+            function refreshPageForSelectedCompany(){
+                var selectedCompany = jQuery('#companySelect').val();
+                window.location.href = currentPath()+"/"+selectedCompany+".html?office=All";
+            }
+
+            function refreshPageForSelectedOffice(){
+                var selectedCompany = jQuery('#companySelect').val();
+                var selectedOffice = jQuery('#officeSelect').val();
+                window.location.href = currentPath()+"/"+selectedCompany+".html?office="+selectedOffice;
+            }
+
+            function currentPath(){
+                return "http://localhost:8080/timesheet"
+            }
         </script>
 </head>
 <body>
     <#include "/includes/revision.ftl">
 <h1 class="title">Please submit your timesheet</h1>
+<p>
+<form  action="#">
+        <label>Payroll:</label>
+        <select id="companySelect">
+        <#list payrolls as payroll>
+            <#if payroll.code == country>
+             <option value="${payroll.code}" selected="selected">${payroll.name}</option>
+            <#else>
+             <option value="${payroll.code}">${payroll.name}</option>
+            </#if>
+        </#list>
+        </select>
+
+        <label>Office:</label>
+        <select id="officeSelect">
+        <#if selectedOffice == 'All'>
+            <option value="All" selected="selected">All</option>
+        <#else>
+            <option value="All">All</option>
+        </#if>
+        <#--
+        <#list offices as office>
+            <#if office == selectedOffice>
+             <option value="${office}" selected="selected">${office}</option>
+            <#else>
+             <option value="${office}">${office}</option>
+            </#if>
+        </#list>
+        -->
+        </select>
+</form>
+</p>
 <div style="margin-top:-30px;width:100%;display:block;text-align:right;background-color:gray;">
 <h2 style="padding-right:20px;">Last Updated: <span id="lastUpdateTime">${lastUpdateTime?string("yyyy/MM/dd HH:mm:ss")}</span></h2>
 </div>
+<div style="height:20px;" />
 <ul id="wallslider" name="wallslider">
     
     <#list peoples as people>

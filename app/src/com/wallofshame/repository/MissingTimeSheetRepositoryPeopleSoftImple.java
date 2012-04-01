@@ -11,7 +11,7 @@ public class MissingTimeSheetRepositoryPeopleSoftImple implements MissingTimeShe
     private PeopleSoftSite peopleSoft = new PeopleSoftSite();
 
 
-    public Employees lookUp(DateTime lastSunDay, String officeId) {
+public Employees lookUp(DateTime lastSunDay, String officeId) {
         return peopleSoft.fetch(lastSunDay, officeId);
     }
 }

@@ -5,7 +5,6 @@ import com.wallofshame.domain.Employees;
 import com.wallofshame.domain.EmployeesParser;
 import com.wallofshame.domain.PeopleMissingTimeSheet;
 import com.wallofshame.repository.MissingTimeSheetRepository;
-import com.wallofshame.service.UpdateWallOfShameService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -28,18 +27,18 @@ public class UpdateWallOfShameServiceTest {
     @Test
     public void canPullUpdatesFromPeopleSoftSite() throws Exception {
 
-        List<Employee> names = PeopleMissingTimeSheet.getInstance().names();
+        List<Employee> names = PeopleMissingTimeSheet.getInstance().employeesOf("TCH").getEmployees();
         assertTrue(names.isEmpty());
 
-        UpdateWallOfShameService service = new UpdateWallOfShameService(new MissingTimeSheetRepository(){
+        TimesheetUpdateService service = new TimesheetUpdateServiceImpl(new MissingTimeSheetRepository(){
 
             public Employees lookUp(DateTime lastSunDay, String officeId) {
                 String cvsData = loadCSVData();
                 return new EmployeesParser().parse(cvsData);
             }
         });
-        service.pullUpdates();
-        names = PeopleMissingTimeSheet.getInstance().names();
+        service.batchPullUpdates();
+        names = PeopleMissingTimeSheet.getInstance().employeesOf("TCH").getEmployees();
         assertFalse(names.isEmpty());
         assertContainsName(names,new Employee("13770","An,Hui", "Beijing"));
 
@@ -49,14 +48,14 @@ public class UpdateWallOfShameServiceTest {
     public void shouldRecordLastUpdateTime(){
 
         Date timeBeforeUpdate = DateUtils.addSeconds(new Date(),-2);
-        UpdateWallOfShameService service = new UpdateWallOfShameService(new MissingTimeSheetRepository(){
+        TimesheetUpdateService service = new TimesheetUpdateServiceImpl(new MissingTimeSheetRepository(){
 
             public Employees lookUp(DateTime lastSunDay, String officeId) {
                 String cvsData = loadCSVData();
                 return new EmployeesParser().parse(cvsData);
             }
         });
-        service.pullUpdates();
+        service.batchPullUpdates();
         Date lastUpdateTime = PeopleMissingTimeSheet.getInstance().lastUpdateTime();
         assertTrue(lastUpdateTime.after(timeBeforeUpdate));
     }
@@ -64,13 +63,13 @@ public class UpdateWallOfShameServiceTest {
     @Test
     public void should_record_last_update_time_even_if_no_missing_people(){
         Date timeBeforeUpdate = DateUtils.addSeconds(new Date(),-2);
-        UpdateWallOfShameService service = new UpdateWallOfShameService(new MissingTimeSheetRepository(){
+        TimesheetUpdateService service = new TimesheetUpdateServiceImpl(new MissingTimeSheetRepository(){
 
             public Employees lookUp(DateTime lastSunDay, String officeId) {
                 return new Employees();
             }
         });
-        service.pullUpdates();
+        service.batchPullUpdates();
         Date lastUpdateTime = PeopleMissingTimeSheet.getInstance().lastUpdateTime();
         assertTrue(lastUpdateTime.after(timeBeforeUpdate));
     }

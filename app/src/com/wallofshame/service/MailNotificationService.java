@@ -42,7 +42,7 @@ public class MailNotificationService {
     @Scheduled(cron = "0 30 08 ? * Mon,Tue")
     public void notifyMissingPeople() {
 
-        List<Employee> peoples = PeopleMissingTimeSheet.getInstance().names();
+        List<Employee> peoples = PeopleMissingTimeSheet.getInstance().employeesOf("TCH").getEmployees();
         String[] toList = collectEmailToList(peoples);
         String text = buildMailText(peoples);
         SimpleMailMessage message = new SimpleMailMessage(templateMessage);

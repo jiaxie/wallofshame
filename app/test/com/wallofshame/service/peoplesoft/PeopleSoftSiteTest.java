@@ -54,7 +54,7 @@ public class PeopleSoftSiteTest {
         DateTime theSundayNoMissing = new DateTime().withDate(2012, 3, 25);
         Employees employees = site.fetch(theSundayNoMissing, "TCH");
         assertThat(employees, notNullValue());
-        assertThat(employees.employees.size(),equalTo(0));
+        assertThat(employees.getEmployees().size(),equalTo(0));
     }
 
     @Test
