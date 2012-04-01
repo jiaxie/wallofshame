@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta http-equiv="refresh" content="20;url=${requestContext.contextPath}/index.html?payroll=${payroll}&office=${office}"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Loading</title>
 	<!-- Framework CSS -->
@@ -25,10 +24,10 @@
   }
   function fakeProgress(v, el) {
     if (v > 100)
-      location.href = "/";
+      location.href = '${requestContext.contextPath}/index.html';
     else     {
       setSB(v, el);
-      window.setTimeout("fakeProgress(" + (++v) + ", document.all['" + el.id + "'])", 200);
+      window.setTimeout("fakeProgress(" + (++v) + ", document.all['" + el.id + "'])", 50);
     }
   }
 </script>
