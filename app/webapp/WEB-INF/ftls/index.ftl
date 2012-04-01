@@ -85,7 +85,7 @@
     <#include "/includes/revision.ftl">
 <h1 class="title">Please submit your timesheet</h1>
 <p>
-<form  action="#">
+<form method="POST" action="${requestContext.contextPath}/${country}.html?office=${selectedOffice}">
         <label>Payroll:</label>
         <select id="companySelect">
         <#list payrolls as payroll>
@@ -114,6 +114,10 @@
         </#list>
         -->
         </select>
+    <input type="submit" value="Send Emails"/>
+    <#if info??>
+    <span style="color:red">${info}</span>
+    </#if>
 </form>
 </p>
 <div style="margin-top:-30px;width:100%;display:block;text-align:right;background-color:gray;">

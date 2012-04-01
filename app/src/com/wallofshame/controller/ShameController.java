@@ -4,6 +4,7 @@ package com.wallofshame.controller;
 import com.wallofshame.domain.Employees;
 import com.wallofshame.domain.PeopleMissingTimeSheet;
 import com.wallofshame.repository.peoplesoft.Credential;
+import com.wallofshame.service.MailNotificationService;
 import com.wallofshame.service.TimesheetUpdateService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class ShameController {
 
     @Autowired
     private TimesheetUpdateService updateWallOfShameService;
+    @Autowired
+    private MailNotificationService mailNotificationService;
 
     @RequestMapping(value = "/{country}.html", method = RequestMethod.GET)
     public String index(Model model, @PathVariable("country") String country,
@@ -94,9 +97,26 @@ public class ShameController {
         }).start();
     }
 
+
+    @RequestMapping(value = "/{country}.html", method = RequestMethod.POST)
+    public String sendEmail(Model model, @PathVariable("country") String country,
+                        @RequestParam("office") String office) {
+
+        mailNotificationService.notifyMissingPeopleAsyn();
+        String info = "Mails are sent!";
+        if (PeopleMissingTimeSheet.getInstance().isEmpty()) {
+            info = "Everyone has submited timsheet!";
+        }
+        model.addAttribute("info", info);
+
+        return index(model,country,office);
+    }
+
     public void setUpdateWallOfShameService(TimesheetUpdateService updateWallOfShameService) {
         this.updateWallOfShameService = updateWallOfShameService;
     }
 
-
+    public void setMailNotificationService(MailNotificationService mailNotificationService) {
+        this.mailNotificationService = mailNotificationService;
+    }
 }
