@@ -39,6 +39,12 @@ public class MailNotificationServiceTest {
         mailNotificationService.notifyMissingPeople();
     }
 
+    @Test
+    public void should_not_send_email_if_no_people_missing_timesheet() throws Exception {
+        PeopleMissingTimeSheet.getInstance().employeesOf("TCH").getEmployees().clear();
+        mailNotificationService.notifyMissingPeople();
+    }
+
 
     @After
     public void after() throws Exception{
