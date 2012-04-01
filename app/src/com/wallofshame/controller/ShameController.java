@@ -28,21 +28,23 @@ public class ShameController {
     @Autowired
     private MailNotificationService mailNotificationService;
 
-    @RequestMapping(value = "/{country}.html", method = RequestMethod.GET)
-    public String index(Model model, @PathVariable("country") String country,
-                        @RequestParam("office") String office) {
+    @RequestMapping(value = "/index .html", method = RequestMethod.GET)
+    public String index(Model model,
+                        @RequestParam(value = "payroll", defaultValue = "TCH") String payroll,
+                        @RequestParam(value = "office", defaultValue = "All") String office) {
 
         if (Credential.getInstance().isEmpty())
             return "redirect:/login.html";
 
         PeopleMissingTimeSheet timeSheet = PeopleMissingTimeSheet.getInstance();
-        Employees employees = timeSheet.employeesOf(country);
+        Employees employees = timeSheet.employeesOf(payroll);
         Date lastUpdateTime = timeSheet.lastUpdateTime();
         model.addAttribute("peoples", employees.atOffice(office));
         Set<String> offices = employees.availableOffices();
-             office = "All";
+        if (!stillValidOffice(office, offices))
+            office = "All";
         model.addAttribute("offices", offices);
-        model.addAttribute("country", country);
+        model.addAttribute("selectedPayroll", payroll);
         model.addAttribute("selectedOffice", office);
         model.addAttribute("payrolls", timeSheet.supportedPayrolls());
         model.addAttribute("lastUpdateTime", lastUpdateTime);
@@ -52,11 +54,17 @@ public class ShameController {
     }
 
     private boolean stillValidOffice(String office, Set<String> offices) {
-        if("All".equals(office))
+
+        if (StringUtils.isBlank(office))
+            return false;
+
+        if ("All".equals(office))
             return true;
-        for(String each : offices)
-            if(each.equals(office))
+
+        for (String each : offices)
+            if (each.equals(office))
                 return true;
+
         return false;
     }
 
@@ -100,7 +108,7 @@ public class ShameController {
 
     @RequestMapping(value = "/{country}.html", method = RequestMethod.POST)
     public String sendEmail(Model model, @PathVariable("country") String country,
-                        @RequestParam("office") String office) {
+                            @RequestParam("office") String office) {
 
         mailNotificationService.notifyMissingPeopleAsyn();
         String info = "Mails are sent!";
@@ -109,8 +117,9 @@ public class ShameController {
         }
         model.addAttribute("info", info);
 
-        return index(model,country,office);
+        return index(model, country, office);
     }
+
 
     public void setUpdateWallOfShameService(TimesheetUpdateService updateWallOfShameService) {
         this.updateWallOfShameService = updateWallOfShameService;

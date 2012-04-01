@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <meta http-equiv="refresh" content="60;url=${requestContext.contextPath}/${country}.html?office=${selectedOffice}"/>
+    <meta http-equiv="refresh" content="60;url=${requestContext.contextPath}/index.html?payroll=${selectedPayroll}&office=${selectedOffice}"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>People who did not commit timesheet on time.</title>
 	<!-- Framework CSS -->
@@ -15,8 +15,8 @@
             jQuery(function() {
                 setUpBrickSlider();
                 setUpLastUpdateTimeCounter();
-                jQuery('#companySelect').change(refreshPageForSelectedCompany);
-                jQuery('#officeSelect').change(refreshPageForSelectedOffice);
+                jQuery('#payrollSelect').change(onPayrollSelected);
+                jQuery('#officeSelect').change(onOfficeSelected);
             });
 
             function setUpLastUpdateTimeCounter(){
@@ -65,31 +65,32 @@
 
 
 
-            function refreshPageForSelectedCompany(){
-                var selectedCompany = jQuery('#companySelect').val();
-                window.location.href = currentPath()+"/"+selectedCompany+".html?office=All";
+            function onPayrollSelected(){
+                var selectedPayroll = jQuery('#payrollSelect').val();
+                reload(selectedPayroll,'All');
             }
 
-            function refreshPageForSelectedOffice(){
-                var selectedCompany = jQuery('#companySelect').val();
+            function onOfficeSelected(){
+                var selectedPayroll = jQuery('#payrollSelect').val();
                 var selectedOffice = jQuery('#officeSelect').val();
-                window.location.href = currentPath()+"/"+selectedCompany+".html?office="+selectedOffice;
+                reload(selectedPayroll,selectedOffice);
             }
 
-            function currentPath(){
-                return "http://localhost:8080/timesheet"
+            function reload(payroll,office){
+                window.location.href ='index.html?payroll='+payroll+'&office='+office;
             }
+
         </script>
 </head>
 <body>
     <#include "/includes/revision.ftl">
 <h1 class="title">Please submit your timesheet</h1>
 <p>
-<form method="POST" action="${requestContext.contextPath}/${country}.html?office=${selectedOffice}">
+<form method="POST" action="${requestContext.contextPath}/index.html?payroll=${selectedPayroll}office=${selectedOffice}">
         <label>Payroll:</label>
-        <select id="companySelect">
+        <select id="payrollSelect">
         <#list payrolls as payroll>
-            <#if payroll.code == country>
+            <#if payroll.code == selectedPayroll>
              <option value="${payroll.code}" selected="selected">${payroll.name}</option>
             <#else>
              <option value="${payroll.code}">${payroll.name}</option>

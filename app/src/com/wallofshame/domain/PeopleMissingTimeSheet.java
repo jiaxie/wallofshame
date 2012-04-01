@@ -10,7 +10,7 @@ public class PeopleMissingTimeSheet {
     private static PeopleMissingTimeSheet instance = new PeopleMissingTimeSheet();
 
     private Date lastUpdateTime;
-    private Map<String,Employees> employees;
+    private Map<String, Employees> employees;
 
     public static PeopleMissingTimeSheet getInstance() {
         return instance;
@@ -18,11 +18,11 @@ public class PeopleMissingTimeSheet {
 
     private PeopleMissingTimeSheet() {
         this.lastUpdateTime = new Date();
-        this.employees = new HashMap<String,Employees>();
+        this.employees = new HashMap<String, Employees>();
     }
 
     public void replaceAll(String company, Employees employees) {
-        this.employees.put(company,employees);
+        this.employees.put(company, employees);
         dataUpdated();
     }
 
@@ -30,7 +30,7 @@ public class PeopleMissingTimeSheet {
         this.lastUpdateTime = new Date();
     }
 
-    public Employees employeesOf(String company){
+    public Employees employeesOf(String company) {
         Employees result = this.employees.get(company);
         return result;
     }
@@ -39,8 +39,8 @@ public class PeopleMissingTimeSheet {
         return lastUpdateTime;
     }
 
-    public List<Payroll> supportedPayrolls(){
-        return Arrays.asList(new Payroll("TCH","China"));
+    public List<Payroll> supportedPayrolls() {
+        return Arrays.asList(new Payroll("TCH", "China"), new Payroll("TAU", "Austrilia"));
     }
 
     public boolean isEmpty() {
