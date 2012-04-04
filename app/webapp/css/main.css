@@ -7226,19 +7226,3 @@
                   	background: #FFAAAA;
                   	font-size: 10px;
                   }
-.missing {
-    float:left;
-    font-size: 100px;
-    margin : 10px 10px 10px 10px;
-    padding : 10px 10px 10px 10px;
-    background-color: #B22222;
-    font-weight:bold;
-    color : white;
-}
-
-.title {
-    background-color: gray;
-    font-size: 60px;
-    font-weight:bold;
-    padding : 5px 5px 5px 5px;
-}

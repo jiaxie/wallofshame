@@ -1,3 +1,3 @@
-<div style="float:right;padding-right:20px;font-size:18px;">
+<div class="build-info">
 Build revision: @revision@
 </div>

@@ -1,6 +1,6 @@
 <#include "main.ftl">
 
-<@main title="Loading" script="load.js" >
+<@main title="Loading" scripts=["load.js"] >
 <body onload="fakeProgress(0, sb, '${requestContext.contextPath}/index.html')">
 <center>
     <br><br>
