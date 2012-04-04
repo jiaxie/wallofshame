@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="${requestContext.contextPath}/css/main.css" type="text/css" media="screen, projection">
 	<link rel="stylesheet" href="${requestContext.contextPath}/css/print.css" type="text/css" media="print">
 	<!--[if lt IE 8]><link rel="stylesheet" href="${requestContext.contextPath}/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
-    <script type="text/javascript" src="${requestContext.contextPath}/javascripts/jquery-1.5.2.min.js"></script>
+    <script type="text/javascript" src="${requestContext.contextPath}/javascripts/lib/jquery-1.7.2.min.js"></script>
 
 
 <script language="javascript">
