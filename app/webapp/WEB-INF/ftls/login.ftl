@@ -13,7 +13,7 @@
 
 </head>
 <body>
-    <#include "/includes/revision.ftl">
+    <#include "includes/revision.ftl">
 <h1 class="title">Your peoplesoft username and password</h1>
 <form method="POST" action="${requestContext.contextPath}/login.html">
     <#if error?? >

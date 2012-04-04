@@ -13,7 +13,7 @@
 
 </head>
 <body>
-    <#include "/includes/revision.ftl">
+    <#include "includes/revision.ftl">
 <h1 class="title">Control Panel</h1>
 <br/>
 <form method="POST" action="${requestContext.contextPath}/control.html">
