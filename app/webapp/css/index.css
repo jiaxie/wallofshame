@@ -1,0 +1,42 @@
+body {
+  overflow-x: hidden;
+}
+
+.missing {
+  font-size: 100px;
+  margin: 10px 10px 10px 10px;
+  padding: 10px 10px 10px 10px;
+  font-weight: bold;
+  color: white;
+  display: inline-block;
+  background-color: #B22222;
+}
+
+.title {
+  font-size: 60px;
+  font-weight: bold;
+}
+
+.info {
+  color: red;
+}
+
+#wallslider {
+  height: 600px;
+}
+
+.update-info {
+  float: right;
+}
+
+.update-info h2 {
+}
+
+header {
+  background-color: gray;
+  padding: 10px;
+}
+
+.operation {
+  margin-top: 10px;
+}
