@@ -41,10 +41,10 @@
     <task:scheduler id="defaultTaskScheduler" pool-size="5"/>
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="smtp.gmail.com" />
-        <property name="port" value="587" />
-        <property name="username" value="noreply.timesheet@gmail.com" />
-        <property name="password" value="mythoughtworks" />
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="noreply.timesheet@gmail.com"/>
+        <property name="password" value="mythoughtworks"/>
 
         <property name="javaMailProperties">
             <props>
@@ -58,13 +58,17 @@
     <bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
         <property name="from" value="noreply.timesheet@gmail.com"/>
         <property name="subject" value="[noreply] Just kindly remind you, you forgot to submit the timesheet."/>
-        <property name="text" value="Please submit your timesheet ASAP." />
+        <property name="text" value="Please submit your timesheet ASAP."/>
         <property name="cc">
             <list>
                 <value>china_delivery_service@thoughtworks.com</value>
                 <value>hjiao@thoughtworks.com</value>
             </list>
         </property>
+    </bean>
+
+    <bean id="payrollRepository" class="com.wallofshame.repository.PayrollRepositoryImpl">
+        <constructor-arg value="/WEB-INF/conf/payrolls.xml"/>
     </bean>
 
 </beans>

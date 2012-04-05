@@ -2,7 +2,9 @@ package com.wallofshame.controller;
 
 
 import com.wallofshame.domain.Employees;
+import com.wallofshame.domain.Payroll;
 import com.wallofshame.domain.PeopleMissingTimeSheet;
+import com.wallofshame.repository.PayrollRepository;
 import com.wallofshame.repository.peoplesoft.Credential;
 import com.wallofshame.service.MailNotificationService;
 import com.wallofshame.service.TimesheetUpdateService;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -26,6 +29,9 @@ public class ShameController {
     private TimesheetUpdateService updateWallOfShameService;
     @Autowired
     private MailNotificationService mailNotificationService;
+    @Autowired
+    private PayrollRepository payrollRepository;
+
 
     @RequestMapping(value = "/index.html", method = RequestMethod.GET)
     public String index(Model model,
@@ -45,7 +51,8 @@ public class ShameController {
         model.addAttribute("offices", offices);
         model.addAttribute("selectedPayroll", payroll);
         model.addAttribute("selectedOffice", office);
-        model.addAttribute("payrolls", timeSheet.supportedPayrolls());
+        List<Payroll> payrolls = payrollRepository.load().list();
+        model.addAttribute("payrolls", payrolls);
         model.addAttribute("lastUpdateTime", lastUpdateTime);
 
         return "index";

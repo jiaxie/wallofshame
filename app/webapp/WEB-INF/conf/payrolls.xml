@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<setting>
+    <payrolls>
+        <payroll>
+            <code>TCH</code>
+            <name>China</name>
+            <emailNotification>true</emailNotification>
+            <ccList>china_delivery_service@thoughtworks.com,hjiao@thoughtworks.com</ccList>
+        </payroll>
+
+        <!-- example. if you wanna see more Countries, add payroll as above
+            code: payroll code or country code
+            name: Country Display name
+            emailNotification: toggle if send email notification
+        -->
+        <payroll>
+            <code>TAU</code>
+            <name>Australia</name>
+            <emailNotification>false</emailNotification>
+        </payroll>
+    </payrolls>
+</setting>

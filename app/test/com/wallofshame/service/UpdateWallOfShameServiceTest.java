@@ -1,10 +1,8 @@
 package com.wallofshame.service;
 
-import com.wallofshame.domain.Employee;
-import com.wallofshame.domain.Employees;
-import com.wallofshame.domain.EmployeesParser;
-import com.wallofshame.domain.PeopleMissingTimeSheet;
+import com.wallofshame.domain.*;
 import com.wallofshame.repository.MissingTimeSheetRepository;
+import com.wallofshame.repository.PayrollRepository;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -30,58 +28,76 @@ public class UpdateWallOfShameServiceTest {
         List<Employee> names = PeopleMissingTimeSheet.getInstance().employeesOf("TCH").getEmployees();
         assertTrue(names.isEmpty());
 
-        TimesheetUpdateService service = new TimesheetUpdateServiceImpl(new MissingTimeSheetRepository(){
+        TimesheetUpdateService service = new TimesheetUpdateServiceImpl(new MissingTimeSheetRepository() {
 
             public Employees lookUp(DateTime lastSunDay, String officeId) {
                 String cvsData = loadCSVData();
                 return new EmployeesParser().parse(cvsData);
             }
-        });
+        }, new PayrollRepository() {
+            public Payrolls load() {
+
+                Payrolls payrolls = new Payrolls();
+                payrolls.add(new Payroll("TCH", "China", false));
+                return payrolls;
+            }
+        }
+        );
         service.batchPullUpdates();
         names = PeopleMissingTimeSheet.getInstance().employeesOf("TCH").getEmployees();
         assertFalse(names.isEmpty());
-        assertContainsName(names,new Employee("13770","An,Hui", "Beijing"));
+        assertContainsName(names, new Employee("13770", "An,Hui", "Beijing"));
 
     }
-    
-    @Test
-    public void shouldRecordLastUpdateTime(){
 
-        Date timeBeforeUpdate = DateUtils.addSeconds(new Date(),-2);
-        TimesheetUpdateService service = new TimesheetUpdateServiceImpl(new MissingTimeSheetRepository(){
+    @Test
+    public void shouldRecordLastUpdateTime() {
+
+        Date timeBeforeUpdate = DateUtils.addSeconds(new Date(), -2);
+        TimesheetUpdateService service = new TimesheetUpdateServiceImpl(new MissingTimeSheetRepository() {
 
             public Employees lookUp(DateTime lastSunDay, String officeId) {
                 String cvsData = loadCSVData();
                 return new EmployeesParser().parse(cvsData);
             }
-        });
+        }, new PayrollRepository() {
+            public Payrolls load() {
+                return new Payrolls();
+            }
+        }
+        );
         service.batchPullUpdates();
         Date lastUpdateTime = PeopleMissingTimeSheet.getInstance().lastUpdateTime();
         assertTrue(lastUpdateTime.after(timeBeforeUpdate));
     }
 
     @Test
-    public void should_record_last_update_time_even_if_no_missing_people(){
-        Date timeBeforeUpdate = DateUtils.addSeconds(new Date(),-2);
-        TimesheetUpdateService service = new TimesheetUpdateServiceImpl(new MissingTimeSheetRepository(){
+    public void should_record_last_update_time_even_if_no_missing_people() {
+        Date timeBeforeUpdate = DateUtils.addSeconds(new Date(), -2);
+        TimesheetUpdateService service = new TimesheetUpdateServiceImpl(new MissingTimeSheetRepository() {
 
             public Employees lookUp(DateTime lastSunDay, String officeId) {
                 return new Employees();
             }
-        });
+        }, new PayrollRepository() {
+            public Payrolls load() {
+                Payrolls payrolls = new Payrolls();
+                payrolls.add(new Payroll("TCH", "China", false));
+                return payrolls;
+            }
+        }
+        );
         service.batchPullUpdates();
         Date lastUpdateTime = PeopleMissingTimeSheet.getInstance().lastUpdateTime();
         assertTrue(lastUpdateTime.after(timeBeforeUpdate));
     }
-    
+
     private void assertContainsName(List<Employee> names, Employee exEmployee) {
-        for(Employee name : names)
-            if(name.equals(exEmployee))
+        for (Employee name : names)
+            if (name.equals(exEmployee))
                 return;
-        fail("name does not exist..."+ exEmployee);
+        fail("name does not exist..." + exEmployee);
     }
-
-
 
 
     private String loadCSVData() throws RuntimeException {
@@ -97,8 +113,6 @@ public class UpdateWallOfShameServiceTest {
         }
         return result;
     }
-
-
 
 
 }

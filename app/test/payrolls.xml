@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<setting>
+    <payrolls>
+        <payroll>
+            <code>TCH</code>
+            <name>China</name>
+            <emailNotification>true</emailNotification>
+            <ccList>zhengli@thoughtworks.com,xjsi@thoughtworks.com</ccList>
+        </payroll>
+        <payroll>
+            <code>TAU</code>
+            <name>Australia</name>
+            <emailNotification>false</emailNotification>
+        </payroll>
+    </payrolls>
+</setting>

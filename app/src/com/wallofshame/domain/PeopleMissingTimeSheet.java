@@ -40,7 +40,7 @@ public class PeopleMissingTimeSheet {
     }
 
     public List<Payroll> supportedPayrolls() {
-        return Arrays.asList(new Payroll("TCH", "China"));
+        return Arrays.asList(new Payroll("TCH", "China", false));
     }
 
     public boolean isEmpty(String payroll) {

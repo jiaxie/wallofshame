@@ -3,6 +3,7 @@ package com.wallofshame.service;
 import com.wallofshame.domain.Employee;
 import com.wallofshame.domain.Payroll;
 import com.wallofshame.domain.PeopleMissingTimeSheet;
+import com.wallofshame.repository.PayrollRepository;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
@@ -24,13 +25,16 @@ public class MailNotificationService {
 
     private MailSender mailSender;
     private SimpleMailMessage templateMessage;
+    private PayrollRepository payrollRepository;
 
     @Autowired
     public MailNotificationService(final MailSender mailSender,
-                                   final SimpleMailMessage templateMessage) {
+                                   final SimpleMailMessage templateMessage,
+                                   final PayrollRepository payrollRepository) {
 
         this.mailSender = mailSender;
         this.templateMessage = templateMessage;
+        this.payrollRepository = payrollRepository;
     }
 
     public void notifyMissingPeopleAsyn() {
@@ -43,9 +47,10 @@ public class MailNotificationService {
     @Scheduled(cron = "0 30 08 ? * Mon,Tue")
     public void notifyMissingPeople() {
 
-        List<Payroll> payrolls = PeopleMissingTimeSheet.getInstance().supportedPayrolls();
+        List<Payroll> payrolls = payrollRepository.load().list();
         for (Payroll payroll : payrolls)
-            notifyMissingPeopleUnderPayroll(payroll);
+            if (payroll.isEmailNotification())
+                notifyMissingPeopleUnderPayroll(payroll);
 
     }
 
@@ -60,6 +65,7 @@ public class MailNotificationService {
         SimpleMailMessage message = new SimpleMailMessage(templateMessage);
         message.setTo(toList);
         message.setText(text);
+        message.setCc(payroll.ccList().toArray(new String[]{}));
         mailSender.send(message);
     }
 
