@@ -8,7 +8,7 @@ public class Payroll {
     private String code;
     private String name;
 
-    public Payroll(String code,String name) {
+    public Payroll(String code, String name) {
         this.code = code;
         this.name = name;
     }
@@ -30,7 +30,6 @@ public class Payroll {
         Payroll payroll = (Payroll) o;
 
         if (code != null ? !code.equals(payroll.code) : payroll.code != null) return false;
-        if (name != null ? !name.equals(payroll.name) : payroll.name != null) return false;
 
         return true;
     }
