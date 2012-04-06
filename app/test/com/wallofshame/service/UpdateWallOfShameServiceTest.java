@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
 public class UpdateWallOfShameServiceTest {
 
     @Test
-    public void canPullUpdatesFromPeopleSoftSite() throws Exception {
+    public void should_pull_updates_from_people_soft_site() throws Exception {
 
         List<Employee> names = PeopleMissingTimeSheet.getInstance().employeesOf("TCH").getEmployees();
         assertTrue(names.isEmpty());
@@ -51,7 +51,7 @@ public class UpdateWallOfShameServiceTest {
     }
 
     @Test
-    public void shouldRecordLastUpdateTime() {
+    public void should_record_last_updated_time() {
 
         Date timeBeforeUpdate = DateUtils.addSeconds(new Date(), -2);
         TimesheetUpdateService service = new TimesheetUpdateServiceImpl(new MissingTimeSheetRepository() {

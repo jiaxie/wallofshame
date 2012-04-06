@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
@@ -22,34 +21,18 @@ import static org.junit.Assert.*;
 public class EmployeesParserTest {
 
     @Test
-    public void canFindSampleCSVData() throws Exception {
-        loadCSVData();
-    }
-
-
-    @Test
-    public void canParseCSVData() throws Exception {
+    public void should_parse_csv() throws Exception {
         String csvSample = loadCSVData();
         Employees employees = new EmployeesParser().parse(csvSample);
-        assertTrue(employees.contains(new Employee("13770","An,Hui", "Beijing")));
+        assertTrue(employees.contains(new Employee("13770", "An,Hui", "Beijing")));
 
     }
 
     @Test
-    public void testEqualityById() {
+    public void should_equals_by_employee_id() {
         assertThat(new Employee("1", "a", "Beijing"), is(new Employee("1", "a", "Beijing")));
         assertThat(new Employee("1", "a", "Beijing"), not(new Employee("2", "b", "Beijing")));
         assertThat(new Employee("1", "a", "Beijing"), is(new Employee("1", "b", "Beijing")));
-    }
-
-    private void assertContainsPeople(List<Employee> people, Employee employee) {
-        for (Employee each : people){
-            if(each.getId().equals(employee.getId())
-                && each.getName().equals(employee.getName())
-                    && each.getOffice().equals(employee.getOffice()))
-                return;
-        }
-        fail("not found missing people :" + employee);
     }
 
     private String loadCSVData() throws Exception {

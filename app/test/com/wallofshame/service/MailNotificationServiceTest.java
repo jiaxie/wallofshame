@@ -29,13 +29,13 @@ public class MailNotificationServiceTest {
     @Before
     public void setUp() throws Exception {
         List<Employee> people = new ArrayList<Employee>();
-        people.add(new Employee("zhengli","Zhiheng Li", "Chengdu"));
-        people.add(new Employee("xjsi","Xiaojing Si", "Xi'an"));
+        people.add(new Employee("zhengli", "Zhiheng Li", "Chengdu"));
+        people.add(new Employee("xjsi", "Xiaojing Si", "Xi'an"));
         PeopleMissingTimeSheet.getInstance().replaceAll("TCH", new Employees(people));
     }
 
     @Test
-    public void canSendEmailToPeopleMissingTimesheet() throws Exception {
+    public void should_send_email_to_people_missing_timesheet() throws Exception {
         mailNotificationService.notifyMissingPeople();
     }
 
@@ -47,9 +47,10 @@ public class MailNotificationServiceTest {
 
 
     @After
-    public void after() throws Exception{
+    public void after() throws Exception {
         PeopleMissingTimeSheet.getInstance().replaceAll("TCH", new Employees(new ArrayList<Employee>()));
     }
+
     public void setMailNotificationService(MailNotificationService mailNotificationService) {
         this.mailNotificationService = mailNotificationService;
     }
