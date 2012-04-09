@@ -100,12 +100,12 @@ public class MailNotificationService {
 
     private String templateHeader() {
         return "Dear ThoughtWorker:\n" +
-                "Just kindly remind you, you forgot to submit the timesheet, could you please submit it once you saw the email, it would not take more than 2 minutes, It will help us a lot in term of invoice processing, report generation and etc.\n" +
+                "This is a kind reminder that you forgot to submit your timesheet.  Could you please submit it as soon as possible - it should not take you more than 2 minutes.  It will help us process invoices faster, giving us more cash flow to invest in back into things like training, equipment, Away Days, and other great things for the TW China team! " +
                 "\n\n\n";
     }
 
     private String templateFooter() {
-        return "\n\n\nThanks very much.";
+        return "\n\n\nThanks for your cooperation.";
     }
 
 
