@@ -30,10 +30,10 @@ public class PeopleSoftSite {
             return new EmployeesParser().parse(cvsData);
         } catch (BadCredentialException badCredentialException) {
             logger.info("Wrong password or username.Please check! People missing timesheet were not fetched.");
-        } catch (NoContentException nce){
+        } catch (NoContentException nce) {
             logger.info("No people missing timesheet csv content downloaded.");
-           return new Employees();
-        }  finally {
+            return new Employees();
+        } finally {
             this.cleanUp();
         }
         return new Employees();
@@ -63,4 +63,8 @@ public class PeopleSoftSite {
     }
 
 
+    public String fetchCSVOfTimesheet(String payroll, DateTime start, DateTime end) {
+        TimesheetSubmitDateQueryPage page = new TimesheetSubmitDateQueryPage(webClient, payroll, convertDateAsString(start), convertDateAsString(end));
+        return page.searchAndDownloadCSV();
+    }
 }

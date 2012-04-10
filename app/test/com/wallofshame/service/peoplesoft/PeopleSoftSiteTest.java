@@ -18,6 +18,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class PeopleSoftSiteTest {
 
+    public static final String TIMESHEET_SUBMIT_DATE_CSV_HEADER = "\"Employee/Contractor\",\"Assoc\",\"Client\",\"Project\",\"Sub Proj1\",\"Date\",\"Client Billable Hours\",\"Client Nonbillable Hours\",\"TW Nonbillable Hours\",\"Task\",\"PSID\",\"Dept\",\"Co\",\"Week Ending Dt\",\"Submit Datetime\",\"Cntry\",\"St\"";
     private final String HEADER_LINE = "\"Employee/Contractor\",\"Week Ending Dt\",\"Payroll\",\"Work in Office\",\"Work in Ctry\",\"Dept\",\"Name\",\"Empl ID\"";
 
     @Test(expected = BadCredentialException.class)
@@ -52,6 +53,17 @@ public class PeopleSoftSiteTest {
         Employees employees = site.fetch(theSundayNoMissing, "TCH");
         assertThat(employees, notNullValue());
         assertThat(employees.getEmployees().size(), equalTo(0));
+    }
+
+    @Test
+    public void should_return_csv_of_timesheet_entry_with_valid_date_range() throws BadCredentialException {
+        PeopleSoftSite site = new PeopleSoftSite();
+        DateTime start = new DateTime().withDate(2012, 4, 2);
+        DateTime end = new DateTime().withDate(2012, 4, 2);
+        String payroll = "TCH";
+        site.login("HJIAO", "jiao980701");
+        String csv = site.fetchCSVOfTimesheet(payroll, start, end);
+        assertTrue(csv.contains(TIMESHEET_SUBMIT_DATE_CSV_HEADER));
     }
 
 }
