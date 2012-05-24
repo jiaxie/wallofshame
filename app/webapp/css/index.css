@@ -21,6 +21,13 @@ body {
   color: red;
 }
 
+#timesheetcall {
+  display: none;
+  color: red;
+  font-size: 140px;
+  font-weight: bold;
+}
+
 #wallslider {
   height: 600px;
 }

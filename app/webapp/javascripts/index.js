@@ -1,15 +1,26 @@
+function isFriday() {
+  var now = new Date();
+  return (now.getDay() === 5)
+}
+
 $(function() {
   $('#payrollSelect').change(onPayrollSelected);
   $('#officeSelect').change(onOfficeSelected);
 
-  $('#wallslider').isotope({
-    layoutMode: 'masonryHorizontal',
-    masonryHorizontal: {
-      rowHeight: 200
-    }
-  });
-
-  $('marquee').marquee();
+  if (isFriday()) {
+    $("#timesheetcall").show();
+    $('marquee').hide();
+  }
+  else
+  {
+    $('#wallslider').isotope({
+      layoutMode: 'masonryHorizontal',
+      masonryHorizontal: {
+        rowHeight: 200
+      }
+    });
+    $('marquee').marquee();
+  }
 });
 
 function onPayrollSelected() {

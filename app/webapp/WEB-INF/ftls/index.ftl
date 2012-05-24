@@ -50,6 +50,8 @@
             </form>
     </header>
 
+    <div id="timesheetcall">Today is Friday. Please submit your TimeSheet.</div>
+
     <marquee behavior="scroll" scrollamount="3">
         <ul id="wallslider">
             <#list peoples as people>
