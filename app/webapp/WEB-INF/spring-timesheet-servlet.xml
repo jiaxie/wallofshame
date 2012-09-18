@@ -60,11 +60,13 @@
         <property name="text" value="Please submit your timesheet ASAP."/>
         <property name="cc">
             <list>
+                <value>china_delivery_service@thoughtworks.com</value>
                 <value>twchn_finance@thoughtworks.com</value>
                 <value>hjiao@thoughtworks.com</value>
                 <value>xswang@thoughtworks.com</value>
                 <value>jxia@thoughtworks.com</value>
                 <value>yliu@thoughtworks.com</value>
+                <value>khu@thoughtworks.com</value>
             </list>
         </property>
     </bean>
