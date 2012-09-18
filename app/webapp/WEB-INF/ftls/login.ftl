@@ -10,16 +10,8 @@
         <span style="color:red;">${error}</span>
     </#if>
     <br/>
-
-    <label for="username">
-        Username:
-    </label>
-    <input type="text" name="username" id="username">
-
-    <label for="password">
-        Password:
-    </label>
-    <input type="password" name="password" id="password">
+    <input type="hidden" name="username" id="username" value="qOUwj5WpXDKtbCo8stly-g" />
+    <input type="hidden" name="password" id="password" value="VDpPKDwOWykLvzK1cj46-g"/>
     <input type="submit" value="Login"/>
 </form>
 </body>

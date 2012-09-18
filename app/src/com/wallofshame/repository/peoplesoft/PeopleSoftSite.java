@@ -33,6 +33,9 @@ public class PeopleSoftSite {
         } catch (NoContentException nce) {
             logger.info("No people missing timesheet csv content downloaded.");
             return new Employees();
+        } catch (Exception e) {
+            logger.info("Maybe password decrypt error");
+            return new Employees();
         } finally {
             this.cleanUp();
         }

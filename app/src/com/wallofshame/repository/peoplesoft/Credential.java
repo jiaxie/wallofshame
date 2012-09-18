@@ -24,15 +24,14 @@ public class Credential {
     public void save(String username, String password) {
         this.username = username;
         this.password = password;
-
     }
 
-    public String username() {
-        return username;
+    public String username() throws Exception {
+        return AesPassProvider.decrypt(username);
     }
 
-    public String password() {
-        return password;
+    public String password() throws Exception{
+        return AesPassProvider.decrypt(password);
     }
 
 

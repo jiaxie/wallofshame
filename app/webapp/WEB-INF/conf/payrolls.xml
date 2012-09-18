@@ -5,7 +5,7 @@
             <code>TCH</code>
             <name>China</name>
             <emailNotification>true</emailNotification>
-            <ccList>china_delivery_service@thoughtworks.com,hjiao@thoughtworks.com</ccList>
+            <ccList>twchn_finance@thoughtworks.com,hjiao@thoughtworks.com,xswang@thoughtworks.com,jxia@thoughtworks.com,yliu@thoughtworks.com</ccList>
         </payroll>
 
         <!-- example. if you wanna see more Countries, add payroll as above

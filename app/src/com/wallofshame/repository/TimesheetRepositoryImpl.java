@@ -26,10 +26,11 @@ public class TimesheetRepositoryImpl implements TimesheetRepository {
         } catch (BadCredentialException e) {
             logger.error("failed to login to peoplesoft. please check the credential provided.", e);
             throw new RuntimeException(e);
+        } catch (Exception e) {
+            logger.info("Maybe password decrypt error");
         }
         String csv = site.fetchCSVOfTimesheet(payroll, start, end);
-        Timesheets timesheets = parse(csv);
-        return timesheets;
+        return parse(csv);
     }
 
     private Timesheets parse(String csv) {
@@ -49,8 +50,7 @@ public class TimesheetRepositoryImpl implements TimesheetRepository {
         String name = columns[1];
         String endingWeekDay = columns[13];
         String submitDate = columns[14];
-        Timesheet timesheet = new Timesheet(name, endingWeekDay, submitDate);
-        return timesheet;
+        return new Timesheet(name, endingWeekDay, submitDate);
     }
 
     private boolean isHeaderLine(String line) {

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="timesheet" basedir="." default="pkg">
-    <property name="test.dir" value="app/test"></property>
-    <property name="src.dir" value="app/src"></property>
-    <property name="server.src.dir" value="server/src"></property>
-    <property name="target.dir" value="target"></property>
-    <property name="dist.dir" value="dist"></property>
+    <property name="test.dir" value="app/test"/>
+    <property name="src.dir" value="app/src"/>
+    <property name="server.src.dir" value="server/src"/>
+    <property name="target.dir" value="target"/>
+    <property name="dist.dir" value="dist"/>
 
-    <property name="compiled.server.dir" value="${target.dir}/server/classes"></property>
-    <property name="compiled.src.dir" value="${target.dir}/production/classes"></property>
-    <property name="compiled.test.dir" value="${target.dir}/test/classes"></property>
+    <property name="compiled.server.dir" value="${target.dir}/server/classes"/>
+    <property name="compiled.src.dir" value="${target.dir}/production/classes"/>
+    <property name="compiled.test.dir" value="${target.dir}/test/classes"/>
 
     <property name="pkg.tomcat.war.name" value="${ant.project.name}.war"/>
     <property name="pkg.tomcat.dir" value="${dist.dir}/tomcat"/>
@@ -130,7 +130,7 @@
         <echo message="current revision: ${repository.version}"/>
         <copy filtering="true" file="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl"
               tofile="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl.tmp"/>
-        <delete file="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl"></delete>
+        <delete file="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl"/>
         <move file="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl.tmp"
               tofile="${dist.dir}/expanded/timesheet/WEB-INF/ftls/includes/revision.ftl"/>
     </target>

@@ -32,7 +32,7 @@ public class PeopleSoftSiteTest {
     @Test
     public void should_download_csv_from_peoplesoft_site() throws Exception {
         PeopleSoftSite site = new PeopleSoftSite();
-        site.login("HJIAO", "jiao980701");
+        site.login("HJIAO", "jiao980702");
         String csvData = site.fetchCvsOfPeopleMissingTimesheet("31/12/2016", "TCH");
         assertTrue(csvData.contains(HEADER_LINE));
     }
@@ -40,14 +40,14 @@ public class PeopleSoftSiteTest {
     @Test(expected = NoContentException.class)
     public void should_throw_no_content_exception_if_no_missing_people() throws Exception {
         PeopleSoftSite site = new PeopleSoftSite();
-        site.login("HJIAO", "jiao980701");
+        site.login("HJIAO", "jiao980702");
         //it's tricky. 25/03/2012 certainly has no missing people.
         site.fetchCvsOfPeopleMissingTimesheet("25/03/2012", "TCH");
     }
 
     @Test
     public void should_return_empty_employees_if_fecth_the_sunday_with_no_missing_people() throws Exception {
-        Credential.getInstance().save("HJIAO", "jiao980701");
+        Credential.getInstance().save("HJIAO", "jiao980702");
         PeopleSoftSite site = new PeopleSoftSite();
         DateTime theSundayNoMissing = new DateTime().withDate(2012, 3, 25);
         Employees employees = site.fetch(theSundayNoMissing, "TCH");
@@ -61,7 +61,7 @@ public class PeopleSoftSiteTest {
         DateTime start = new DateTime().withDate(2012, 4, 2);
         DateTime end = new DateTime().withDate(2012, 4, 2);
         String payroll = "TCH";
-        site.login("HJIAO", "jiao980701");
+        site.login("HJIAO", "jiao980702");
         String csv = site.fetchCSVOfTimesheet(payroll, start, end);
         assertTrue(csv.contains(TIMESHEET_SUBMIT_DATE_CSV_HEADER));
     }

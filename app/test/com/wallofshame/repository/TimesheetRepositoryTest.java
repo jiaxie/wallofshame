@@ -15,7 +15,7 @@ public class TimesheetRepositoryTest {
 
     @Test
     public void should_return_timesheets_if_valid_date_range() {
-        Credential.getInstance().save("HJIAO", "jiao980701");
+        Credential.getInstance().save("HJIAO", "jiao980702");
         TimesheetRepository timesheetRepository = new TimesheetRepositoryImpl();
         String payroll = "TCH";
         DateTime start = new DateTime().withDate(2012, 4, 2);
