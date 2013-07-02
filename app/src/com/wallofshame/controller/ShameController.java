@@ -32,7 +32,6 @@ public class ShameController {
     @Autowired
     private PayrollRepository payrollRepository;
 
-
     @RequestMapping(value = "/index.html", method = RequestMethod.GET)
     public String index(Model model,
                         @RequestParam(value = "payroll", defaultValue = "TCH") String payroll,
@@ -46,8 +45,11 @@ public class ShameController {
         Date lastUpdateTime = timeSheet.lastUpdateTime();
         model.addAttribute("peoples", employees.atOffice(office));
         Set<String> offices = employees.availableOffices();
-        if (!stillValidOffice(office, offices))
+        System.out.print(offices);
+
+        if (!stillValidOffice(office, offices)){
             office = "All";
+        }
         model.addAttribute("offices", offices);
         model.addAttribute("selectedPayroll", payroll);
         model.addAttribute("selectedOffice", office);
@@ -125,6 +127,11 @@ public class ShameController {
         model.addAttribute("info", "Email sent!");
 
         return index(model, payroll, office);
+    }
+
+    @RequestMapping(value = "/chart.html", method = RequestMethod.GET)
+    public String drawChart(){
+        return "chart";
     }
 
 

@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 public class CredentialTest {
 
     @Test
-    public void can_save_user_credential() {
+    public void can_save_user_credential() throws Exception {
         Credential credential = Credential.getInstance();
         String username = "username";
         String password = "password";
