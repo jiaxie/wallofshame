@@ -1,10 +1,6 @@
 
-$(function () {    
-    var getDate = function(string){
-      var date = new Date(string);
-        return date.getTime();
-    };
-   
+$(function () {
+
         $('#container').highcharts({
             chart: {
                 type: 'scatter',
@@ -17,26 +13,23 @@ $(function () {
                 text: 'ThoughtWorks'
             },
             xAxis: {
-                 type: 'datetime',
-                 dateTimeLabelFormats: {
-                    day: '%e. %b'
-                },
+                categories: ['07-01 (Monday)', '07-02 (Tuesday)', '07-03 (Wednesday)', '07-04 (Thursday)', '07-05 (Friday)', '07-06 (Saturday)', '07-07 (Sunday)'],
                 title: {
                     enabled: true,
-                    text: 'Day'
+                    text: 'Date (2013)'
                 },
                 startOnTick: true,
                 endOnTick: true,
                 showLastLabel: true
             },
             yAxis: {
-                type: 'datetime',           
-                tickInterval:3600 * 1000 * 2,
-                dateTimeLabelFormats : {
-                    hour: '%H:00'
-                },
+                categories: [0,1,2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+                tickInterval: 2,
                 title: {
-                    text: 'Time (Hour)'
+                    text: 'Submit Time (Hour)',
+                },
+                labels: {
+                    format: '{value}:00'
                 }
             },
             legend: {
@@ -49,72 +42,47 @@ $(function () {
                 backgroundColor: '#FFFFFF',
                 borderWidth: 1
             },
-            plotOptions: {
-                series:{
-                    pointStart:Date.UTC(2013,5,1),
-                    pointInterval: 3600 * 1000
-                },
-                scatter: {
-                    marker: {
-                        radius: 5,
-                        states: {
-                            hover: {
-                                enabled: true,
-                                lineColor: 'rgb(100,100,100)'
-                            }
-                        }
-                    },
-                    states: {
-                        hover: {
-                            marker: {
-                                enabled: false
-                            }
-                        }
-                    }
-                }
-            },
             tooltip: {
                 formatter: function() {
-                    return '<b>'+ this.series.name +'</b><br/>'+
-                        Highcharts.dateFormat('%e. %b', this.x) +': '+                             Highcharts.dateFormat('%H:%M', this.y);
+                    return '<b>'+ this.series.name +'</b><br/>'+ this.x +': '+ this.y + ':00';
                 }
             },
             series: [{
                 name: "Xi'an",
                 color: 'rgba(223, 83, 83, .5)',
-                data: [[getDate('6/28/2013  4:49:11 AM'), getDate('6/28/2013  4:49:11 AM')],
-                       [getDate('6/28/2013  2:33:14 AM'), getDate('6/28/2013  2:33:14 AM')],
-                       [getDate('6/29/2013  6:42:13 AM'), getDate('6/29/2013  6:42:13 AM')],
-                       [getDate('6/23/2013  11:54:37 PM'), getDate('6/23/2013  11:54:37 PM')]],
-            pointStart: Date(2012, 0, 1),
-            pointInterval: 24 * 3600 * 1000 // one day
-            },{
+                data: [['07-01', 10],
+                       ['07-02', 22],
+                       ['07-03', 13],
+                       ['07-04', 12],
+                       ['07-05', 12],
+                       ['07-06', 19]]
+            }, {
                 name: "Chengdu",
-                color: 'rgba(223, 223, 83, .5)',
-                data: [[getDate('6/23/2013  5:49:11 AM'), getDate('6/23/2013  5:49:11 AM')],
-                       [getDate('6/22/2013  6:33:14 AM'), getDate('6/22/2013  6:33:14 AM')],
-                       [getDate('6/27/2013  7:42:13 AM'), getDate('6/27/2013  7:42:13 AM')],
-                       [getDate('6/25/2013  21:54:37 PM'), getDate('6/25/2013  21:54:37 PM')]],
-            pointStart: Date(2012, 0, 1),
-            pointInterval: 24 * 3600 * 1000 // one day
-            },{
+                color: 'rgba(0, 0, 225, .5)',
+                data: [['07-01', 5],
+                       ['07-02', 3],
+                       ['07-03', 11],
+                       ['07-04', 23],
+                       ['07-05', 23],
+                       ['07-06', 23]]
+            }, {
                 name: "Beijing",
-                color: 'rgba(83, 223, 83, .5)',
-                data: [[getDate('6/24/2013  5:49:11 AM'), getDate('6/24/2013  5:49:11 AM')],
-                       [getDate('6/25/2013  6:33:14 AM'), getDate('6/25/2013  6:33:14 AM')],
-                       [getDate('6/24/2013  7:42:13 AM'), getDate('6/24/2013  7:42:13 AM')],
-                       [getDate('6/27/2013  21:54:37 PM'), getDate('6/27/2013  21:54:37 PM')]],
-            pointStart: Date(2012, 0, 1),
-            pointInterval: 24 * 3600 * 1000 // one day
+                color: 'rgba(0, 0, 0, .5)',
+                data: [['07-01', 23],
+                       ['07-05', 23],
+                       ['07-05', 23],
+                       ['07-05', 23],
+                       ['07-05', 23],
+                       ['07-05', 23]]
             },{
                 name: "Shanghai",
-                color: 'rgba(0, 0, 0, .5)',
-                data: [[getDate('6/24/2013  5:49:11 AM'), getDate('6/24/2013  5:49:11 AM')],
-                       [getDate('6/25/2013  6:33:14 AM'), getDate('6/25/2013  6:33:14 AM')],
-                       [getDate('6/24/2013  7:42:13 AM'), getDate('6/24/2013  7:42:13 AM')],
-                       [getDate('6/27/2013  21:54:37 PM'), getDate('6/27/2013  21:54:37 PM')]],
-            pointStart: Date(2012, 0, 1),
-            pointInterval: 24 * 3600 * 1000 // one day
+                color: 'rgba(0, 225, 0, .5)',
+                data: [['7-01', 23],
+                       ['7-02', 21],
+                       ['7-03', 13],
+                       ['7-04', 19],
+                       ['7-05', 23],
+                       ['7-06', 23]]
             }]
         });
     });

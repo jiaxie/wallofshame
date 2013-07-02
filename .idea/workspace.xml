@@ -111,7 +111,7 @@
       <file leaf-file-name="chart.ftl" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/webapp/WEB-INF/ftls/chart.ftl">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="42" selection-start="361" selection-end="361" vertical-scroll-proportion="0.0">
+            <state line="6" column="61" selection-start="294" selection-end="294" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -120,7 +120,7 @@
       <file leaf-file-name="chart.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/webapp/javascripts/chart.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="119" column="38" selection-start="4804" selection-end="4804" vertical-scroll-proportion="1.3677758">
+            <state line="2" column="0" selection-start="17" selection-end="17" vertical-scroll-proportion="-1.0420315">
               <folding />
             </state>
           </provider>
@@ -713,14 +713,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/webapp/WEB-INF/ftls/chart.ftl">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="42" selection-start="361" selection-end="361" vertical-scroll-proportion="0.0">
+        <state line="6" column="61" selection-start="294" selection-end="294" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/webapp/javascripts/chart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="119" column="38" selection-start="4804" selection-end="4804" vertical-scroll-proportion="1.3677758">
+        <state line="2" column="0" selection-start="17" selection-end="17" vertical-scroll-proportion="-1.0420315">
           <folding />
         </state>
       </provider>
