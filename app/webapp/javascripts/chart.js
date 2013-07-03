@@ -106,12 +106,11 @@ $(function () {
 
           $.ajax({
             url:"chartData",
-            contentType: "application/json; charset=utf-8",
             type: 'GET',
             dataType: 'json',
             success: function(data){
                 console.log(data);
-                console.log(data['TCX'][0][1]);
+//                console.log(data['TCX'][0][1]);
                 console.log('************');
 //               dataList = data;
                drawChart();

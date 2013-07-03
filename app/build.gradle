@@ -1,0 +1,10 @@
+apply :plugin 'idea'
+apply :plugin 'java'
+
+repositories {
+    mavenCentral()
+}
+
+depedencies {
+    compile 'asm:asm:3.3.1'
+}

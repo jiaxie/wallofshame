@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -35,7 +36,7 @@ public class ShameController {
     private PayrollRepository payrollRepository;
 
     @RequestMapping(value = "/index.html", method = RequestMethod.GET)
-    public String index(Model model,
+    public String index(org.springframework.ui.Model model,
                         @RequestParam(value = "payroll", defaultValue = "TCH") String payroll,
                         @RequestParam(value = "office", defaultValue = "All") String office) {
 
@@ -137,10 +138,11 @@ public class ShameController {
     }
 
     @RequestMapping(value ="/chartData", method=RequestMethod.GET )
-    public @ResponseBody JSONObject getChartData(){
+    public @ResponseBody JSONObject getChartData(HttpServletResponse rsp){
         JSONObject json = new JSONObject();
         json.put("TCX","[[111, 222],[333,444],[555,666]]");
         json.put("country", "India");
+        rsp.setContentType("application/json");
         return json;
     }
 

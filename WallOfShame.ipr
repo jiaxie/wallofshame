@@ -219,6 +219,15 @@
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
+    <library name="app-dep">
+      <CLASSES>
+        <root url="file://$PROJECT_DIR$/app/lib" />
+        <root url="file://$PROJECT_DIR$/app/lib" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+      <jarDirectory url="file://$PROJECT_DIR$/app/lib" recursive="false" />
+    </library>
     <library name="app-lib">
       <CLASSES>
         <root url="file://$PROJECT_DIR$/app/webapp/WEB-INF/lib" />
@@ -229,6 +238,15 @@
     </library>
     <library name="scala-test">
       <CLASSES>
+        <root url="file://$PROJECT_DIR$/server/lib" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+      <jarDirectory url="file://$PROJECT_DIR$/server/lib" recursive="false" />
+    </library>
+    <library name="server-dep">
+      <CLASSES>
+        <root url="file://$PROJECT_DIR$/server/lib" />
         <root url="file://$PROJECT_DIR$/server/lib" />
       </CLASSES>
       <JAVADOC />

@@ -6,6 +6,7 @@ import com.wallofshame.domain.PeopleMissingTimeSheet;
 import com.wallofshame.repository.PayrollRepository;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -45,7 +46,7 @@ public class MailNotificationService {
 
 
     @Scheduled(cron = "0 30 08 ? * Mon,Tue")
-    public void notifyMissingPeople() {
+    public void notifyMissingPeople() throws MailException {
 
         List<Payroll> payrolls = payrollRepository.load().list();
         for (Payroll payroll : payrolls)
@@ -54,7 +55,7 @@ public class MailNotificationService {
 
     }
 
-    private void notifyMissingPeopleUnderPayroll(Payroll payroll) {
+    private void notifyMissingPeopleUnderPayroll(Payroll payroll) throws MailException {
         PeopleMissingTimeSheet timeSheet = PeopleMissingTimeSheet.getInstance();
         if (timeSheet.isEmpty(payroll.getCode())) {
             return;
