@@ -1,7 +1,38 @@
 
 $(function () {
+       var dateList = {
+                "TCX": [
+                   [Date.UTC(2013, 0, 7), 10],
+                   [Date.UTC(2013, 0, 2), 22],
+                   [Date.UTC(2013, 0, 5), 13],
+                   [Date.UTC(2013, 0, 4), 12],
+                   [Date.UTC(2013, 0, 5), 12],
+                   [Date.UTC(2013, 0, 2), 12]
+                ],
+                "TCC": [
+                    [Date.UTC(2013, 0, 1), 11],
+                    [Date.UTC(2013, 0, 2), 23],
+                    [Date.UTC(2013, 0, 3), 10],
+                    [Date.UTC(2013, 0, 4), 3]
+                ],
+                "TBS": [
+                    [Date.UTC(2013, 0, 1), 13],
+                    [Date.UTC(2013, 0, 2), 0],
+                    [Date.UTC(2013, 0, 3), 12],
+                    [Date.UTC(2013, 0, 4), 15]
+                ],
+                "Shanghai": [
+                    [Date.UTC(2013, 0, 1), 10],
+                    [Date.UTC(2013, 0, 2), 4],
+                    [Date.UTC(2013, 0, 3), 13],
+                    [Date.UTC(2013, 0, 4), 19]
+                ]
+        };
 
-        $('#container').highcharts({
+//       var dateList = {};
+
+       var drawChart = function(){
+            $('#container').highcharts({
             chart: {
                 type: 'scatter',
                 zoomType: 'xy'
@@ -13,17 +44,20 @@ $(function () {
                 text: 'ThoughtWorks'
             },
             xAxis: {
-                categories: ['07-01 (Monday)', '07-02 (Tuesday)', '07-03 (Wednesday)', '07-04 (Thursday)', '07-05 (Friday)', '07-06 (Saturday)', '07-07 (Sunday)'],
+                 type: 'datetime',
+                 dateTimeLabelFormats: {
+                    day: '%e. %b'
+                },
+                minTickInterval: 24*3600*1000,
                 title: {
                     enabled: true,
-                    text: 'Date (2013)'
+                    text: 'Day'
                 },
-                startOnTick: true,
-                endOnTick: true,
-                showLastLabel: true
+                startOnTick: false,
+                endOnTick: false
             },
             yAxis: {
-                categories: [0,1,2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+                categories: [0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
                 tickInterval: 2,
                 title: {
                     text: 'Submit Time (Hour)',
@@ -44,45 +78,44 @@ $(function () {
             },
             tooltip: {
                 formatter: function() {
-                    return '<b>'+ this.series.name +'</b><br/>'+ this.x +': '+ this.y + ':00';
+                    return '<b>'+ this.series.name +'</b><br/>'+
+                    Highcharts.dateFormat('%e. %b', this.x) +': '+ this.y + ':00';
                 }
             },
             series: [{
                 name: "Xi'an",
                 color: 'rgba(223, 83, 83, .5)',
-                data: [['07-01', 10],
-                       ['07-02', 22],
-                       ['07-03', 13],
-                       ['07-04', 12],
-                       ['07-05', 12],
-                       ['07-06', 19]]
-            }, {
+                data: dateList["TCX"]
+            },{
                 name: "Chengdu",
                 color: 'rgba(0, 0, 225, .5)',
-                data: [['07-01', 5],
-                       ['07-02', 3],
-                       ['07-03', 11],
-                       ['07-04', 23],
-                       ['07-05', 23],
-                       ['07-06', 23]]
-            }, {
-                name: "Beijing",
-                color: 'rgba(0, 0, 0, .5)',
-                data: [['07-01', 23],
-                       ['07-05', 23],
-                       ['07-05', 23],
-                       ['07-05', 23],
-                       ['07-05', 23],
-                       ['07-05', 23]]
-            },{
+                data: dateList['TCC']
+            },
+            {
                 name: "Shanghai",
+                color: 'rgba(0, 0, 0, .5)',
+                data: dateList['Shanghai']
+            },{
+                name: "Beijing",
                 color: 'rgba(0, 225, 0, .5)',
-                data: [['7-01', 23],
-                       ['7-02', 21],
-                       ['7-03', 13],
-                       ['7-04', 19],
-                       ['7-05', 23],
-                       ['7-06', 23]]
+                data: dateList['TBS']
             }]
         });
+       };
+
+
+          $.ajax({
+            url:"chartData",
+            contentType: "application/json; charset=utf-8",
+            type: 'GET',
+            dataType: 'json',
+            success: function(data){
+                console.log(data);
+                console.log(data['TCX'][0][1]);
+                console.log('************');
+//               dataList = data;
+               drawChart();
+            }
+          });
+//       drawChart();
     });

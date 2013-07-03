@@ -8,6 +8,7 @@ import com.wallofshame.repository.PayrollRepository;
 import com.wallofshame.repository.peoplesoft.Credential;
 import com.wallofshame.service.MailNotificationService;
 import com.wallofshame.service.TimesheetUpdateService;
+import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -134,6 +136,14 @@ public class ShameController {
         return "chart";
     }
 
+    @RequestMapping(value ="/chartData", method=RequestMethod.GET )
+    public @ResponseBody JSONObject getChartData(){
+        JSONObject json = new JSONObject();
+        json.put("TCX","[[111, 222],[333,444],[555,666]]");
+        json.put("country", "India");
+        return json;
+    }
+
 
     public void setUpdateWallOfShameService(TimesheetUpdateService updateWallOfShameService) {
         this.updateWallOfShameService = updateWallOfShameService;
@@ -142,4 +152,5 @@ public class ShameController {
     public void setMailNotificationService(MailNotificationService mailNotificationService) {
         this.mailNotificationService = mailNotificationService;
     }
+
 }
