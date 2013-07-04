@@ -6,6 +6,7 @@ import com.wallofshame.domain.Payroll;
 import com.wallofshame.domain.PeopleMissingTimeSheet;
 import com.wallofshame.repository.PayrollRepository;
 import com.wallofshame.repository.peoplesoft.Credential;
+import com.wallofshame.service.ChartDataFetchService;
 import com.wallofshame.service.MailNotificationService;
 import com.wallofshame.service.TimesheetUpdateService;
 import net.sf.json.JSONObject;
@@ -19,10 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
+//import com.wallofshame.service.MailNotificationService;
 
 @Controller
 public class ShameController {
@@ -34,6 +36,8 @@ public class ShameController {
     private MailNotificationService mailNotificationService;
     @Autowired
     private PayrollRepository payrollRepository;
+    @Autowired
+    private ChartDataFetchService chartDataFetchService;
 
     @RequestMapping(value = "/index.html", method = RequestMethod.GET)
     public String index(org.springframework.ui.Model model,
@@ -109,9 +113,7 @@ public class ShameController {
     private void updateAsyn() {
         new Thread(new Runnable() {
             public void run() {
-
                 updateWallOfShameService.batchPullUpdates();
-
             }
         }).start();
     }
@@ -138,12 +140,9 @@ public class ShameController {
     }
 
     @RequestMapping(value ="/chartData", method=RequestMethod.GET )
-    public @ResponseBody JSONObject getChartData(HttpServletResponse rsp){
-        JSONObject json = new JSONObject();
-        json.put("TCX","[[111, 222],[333,444],[555,666]]");
-        json.put("country", "India");
-        rsp.setContentType("application/json");
-        return json;
+    public @ResponseBody JSONObject getChartData() throws Exception {
+        JSONObject chartData = chartDataFetchService.fetchData();
+        return chartData;
     }
 
 
@@ -155,4 +154,7 @@ public class ShameController {
         this.mailNotificationService = mailNotificationService;
     }
 
+    public void setchartDataFetchService(ChartDataFetchService chartDataFetchService) {
+        this.chartDataFetchService = chartDataFetchService;
+    }
 }

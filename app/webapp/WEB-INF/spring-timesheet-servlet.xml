@@ -54,6 +54,7 @@
 
     </bean>
 
+
     <bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
         <property name="from" value="noreply.timesheet@gmail.com"/>
         <property name="subject" value="[noreply] Just kindly remind you, you forgot to submit the timesheet."/>
