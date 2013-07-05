@@ -27,7 +27,9 @@ public class ChartDataFetchService {
     public ChartDataFetchService() {
 
     }
-
+    public JSONObject fetchData() throws Exception {
+        return fetchData(new Date());
+    }
 
     private String convertToString(ArrayList<Date> dateEachOffice){
         String data = "";
@@ -39,45 +41,18 @@ public class ChartDataFetchService {
         }
         return data;
     }
-    public JSONObject fetchData() throws Exception {
-        return fetchData(new Date());
-    }
+
     public JSONObject fetchData(Date endingDate) throws Exception {
         JSONObject jsonData = new JSONObject();
-
         ArrayList<Date> dateTCXOffice = new ArrayList<Date>();
         ArrayList<Date> dateTCCOffice = new ArrayList<Date>();
         ArrayList<Date> dateTBSOffice = new ArrayList<Date>();
 
      try{
-         FileInputStream input = new FileInputStream("./server/source/submitted-timesheet.xls");
-         POIFSFileSystem fs = new POIFSFileSystem(input);
-         HSSFWorkbook wb = new HSSFWorkbook(fs);
-         HSSFSheet sheet = wb.getSheetAt(0);
-
+         HSSFSheet sheet = loadSheetOfExcelFile();
          Iterator<Row> rows = sheet.rowIterator();
          while(rows.hasNext()){
-             HSSFRow row = (HSSFRow) rows.next();
-             Iterator<Cell> cells = row.cellIterator();
-
-             while(cells.hasNext()) {
-                 HSSFCell cell = (HSSFCell) cells.next();
-                 if(row.getRowNum() < 2){
-                     continue;
-                 }
-                 if(cell.getCellNum() == 13){
-                    String office = cell.getRow().getCell(12).getStringCellValue();
-                     if(office.equals("TCX")){
-                        dateTCXOffice.add(cell.getRow().getCell(14).getDateCellValue());
-                     }else if(office.equals("TCC")){
-                        dateTCCOffice.add(cell.getRow().getCell(14).getDateCellValue());
-                     }else if(office.equals("TBS")){
-                        dateTBSOffice.add(cell.getRow().getCell(14).getDateCellValue());
-                     }else{
-                        System.out.print("This person is not in China");
-                     }
-                 }
-             }
+             fetchDataPerRow(dateTCXOffice, dateTCCOffice, dateTBSOffice, rows);
 
          }
      }catch(IOException ex){
@@ -87,6 +62,43 @@ public class ChartDataFetchService {
         jsonData.put("TBS", convertToString(dateTBSOffice));
         jsonData.put("TCC", convertToString(dateTCCOffice));
         return jsonData;
+    }
+
+    private void fetchDataPerRow(ArrayList<Date> dateTCXOffice, ArrayList<Date> dateTCCOffice, ArrayList<Date> dateTBSOffice, Iterator<Row> rows) {
+        HSSFRow row = (HSSFRow) rows.next();
+        Iterator<Cell> cells = row.cellIterator();
+
+        while(cells.hasNext()) {
+            fetchDataPerCell(dateTCXOffice, dateTCCOffice, dateTBSOffice, row, cells);
+        }
+    }
+
+    private void fetchDataPerCell(ArrayList<Date> dateTCXOffice, ArrayList<Date> dateTCCOffice, ArrayList<Date> dateTBSOffice, HSSFRow row, Iterator<Cell> cells) {
+        HSSFCell cell = (HSSFCell) cells.next();
+        if (isHeader(row)) return;
+        if(cell.getCellNum() == 13){
+           String office = cell.getRow().getCell(12).getStringCellValue();
+            if(office.equals("TCX")){
+               dateTCXOffice.add(cell.getRow().getCell(14).getDateCellValue());
+            }else if(office.equals("TCC")){
+               dateTCCOffice.add(cell.getRow().getCell(14).getDateCellValue());
+            }else if(office.equals("TBS")){
+               dateTBSOffice.add(cell.getRow().getCell(14).getDateCellValue());
+            }else{
+               System.out.print("This person is not in China");
+            }
+        }
+    }
+
+    private boolean isHeader(HSSFRow row) {
+        return row.getRowNum() < 2;
+    }
+
+    private HSSFSheet loadSheetOfExcelFile() throws IOException {
+        FileInputStream input = new FileInputStream("./server/source/submitted-timesheet.xls");
+        POIFSFileSystem fs = new POIFSFileSystem(input);
+        HSSFWorkbook wb = new HSSFWorkbook(fs);
+        return wb.getSheetAt(0);
     }
 }
 

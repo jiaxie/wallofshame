@@ -1,28 +1,5 @@
 
 $(function () {
-//       var dateList = {
-//                "TCX": [
-//                   [Date.UTC(2013, 0, 7), 10],
-//                   [Date.UTC(2013, 0, 2), 22],
-//                   [Date.UTC(2013, 0, 5), 13],
-//                   [Date.UTC(2013, 0, 4), 12],
-//                   [Date.UTC(2013, 0, 5), 12],
-//                   [Date.UTC(2013, 0, 2), 12]
-//                ],
-//                "TCC": [
-//                    [Date.UTC(2013, 0, 1), 11],
-//                    [Date.UTC(2013, 0, 2), 23],
-//                    [Date.UTC(2013, 0, 3), 10],
-//                    [Date.UTC(2013, 0, 4), 3]
-//                ],
-//                "TBS": [
-//                    [Date.UTC(2013, 0, 1), 13],
-//                    [Date.UTC(2013, 0, 2), 0],
-//                    [Date.UTC(2013, 0, 3), 12],
-//                    [Date.UTC(2013, 0, 4), 15]
-//                ]
-//        };
-
         var dateList = {};
         var convertDate = function(data){
             var result = {};
@@ -78,7 +55,7 @@ $(function () {
             },
             yAxis: {
                 categories: [0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
-                tickInterval: 2,
+                minTickInterval: 2,
                 title: {
                     text: 'Submit Time (Hour)',
                 },
